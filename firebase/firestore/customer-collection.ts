@@ -10,9 +10,11 @@ import {
     query,
     QueryDocumentSnapshot,
     QueryFieldFilterConstraint,
+    QuerySnapshot,
     startAfter,
     where,
 } from "firebase/firestore";
+import {Query} from "browserslist";
 
 /**
  *
@@ -126,10 +128,8 @@ export const paginatedCustomers = async (
     customers: Customer[];
     last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
 }> => {
-    console.log("_limit => ",
-        _limit, "\n_lastCustomerId => ", _lastCustomerId, "\n_type => ", _type)
     let firstBatch;
-    let constraints = []
+    let constraints: QueryFieldFilterConstraint[] = []
 
     if (_type === CUSTOMER_TYPE.StandardCustomer || _type === CUSTOMER_TYPE.PremiumCustomer) constraints.push(where("customerType", "==", _type))
 
@@ -189,8 +189,8 @@ export const searchCustomer = async (
     customers: Customer[];
     last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
 }> => {
-    let firstBatch;
-    let constraints = []
+    let firstBatch: Query<DocumentData, DocumentData>;
+    let constraints: QueryFieldFilterConstraint[] = []
 
     if (_type === CUSTOMER_TYPE.StandardCustomer || _type === CUSTOMER_TYPE.PremiumCustomer) constraints.push(where("customerType", "==", _type))
     if (_firstName !== "") constraints.push(where("customerFirstName", "==", _firstName))
@@ -202,12 +202,11 @@ export const searchCustomer = async (
         ...constraints,
     )
 
-
-    const documentSnapshots = await getDocs(firstBatch);
+    const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> = await getDocs(firstBatch);
     const last = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     const customersColl: Customer[] = [];
-    let data;
+    let data: DocumentData;
 
     documentSnapshots.forEach((doc) => {
         if (doc.exists()) {

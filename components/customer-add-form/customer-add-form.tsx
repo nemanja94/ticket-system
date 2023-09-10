@@ -26,7 +26,7 @@ const formSchema = z.object({
     customerDateCreated: z.date()
 })
 
-const CustomerAddFormComponent =
+const CustomerAddForm =
     () => {
 
         const form = useForm<z.infer<typeof formSchema>>({
@@ -121,4 +121,4 @@ const CustomerAddFormComponent =
         );
     }
 
-export default CustomerAddFormComponent
+export default CustomerAddForm
