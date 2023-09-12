@@ -122,7 +122,7 @@ export const getFirstBatch = async (_limit: number,) => {
 export const paginatedCustomers = async (
     _limit: number,
     _lastCustomerId: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined,
-    _type: CUSTOMER_TYPE,
+    _type?: CUSTOMER_TYPE,
 ): Promise<{
     customers: Customer[];
     last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;

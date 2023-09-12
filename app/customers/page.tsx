@@ -49,7 +49,7 @@ export default function Customers() {
 
     const paginationHandler = () => {
         const fetchCustomers = async () => {
-            return await paginatedCustomers(limit, last, customerType);
+            return await paginatedCustomers(limit, last);
         };
 
         fetchCustomers().then(res => {
