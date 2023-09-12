@@ -41,10 +41,8 @@ const CustomerAddForm =
         })
 
         const onSubmit = async (values: z.infer<typeof formSchema>) => {
-            console.log(values)
             const customer: Customer = new Customer(values.customerType, values.customerFirstName, values.customerLastName, values.customerNumber, Timestamp.fromDate(values.customerDateCreated))
             const res = await addCustomer(customer)
-            console.log(res)
         }
         return (
             <Form {...form}>

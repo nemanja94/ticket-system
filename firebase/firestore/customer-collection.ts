@@ -14,7 +14,6 @@ import {
     startAfter,
     where,
 } from "firebase/firestore";
-import {Query} from "browserslist";
 
 /**
  *
@@ -133,8 +132,6 @@ export const paginatedCustomers = async (
 
     if (_type === CUSTOMER_TYPE.StandardCustomer || _type === CUSTOMER_TYPE.PremiumCustomer) constraints.push(where("customerType", "==", _type))
 
-    console.log("constraints => ", constraints)
-
     if (_lastCustomerId === undefined) {
         firstBatch = query(
             collection(db, "customers"),
@@ -184,12 +181,12 @@ export const paginatedCustomers = async (
 export const searchCustomer = async (
     _type: CUSTOMER_TYPE,
     _firstName: string,
-    _phoneNumber: string
+    _phoneNumber: string,
 ): Promise<{
     customers: Customer[];
     last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
 }> => {
-    let firstBatch: Query<DocumentData, DocumentData>;
+    let firstBatch;
     let constraints: QueryFieldFilterConstraint[] = []
 
     if (_type === CUSTOMER_TYPE.StandardCustomer || _type === CUSTOMER_TYPE.PremiumCustomer) constraints.push(where("customerType", "==", _type))

@@ -1,5 +1,5 @@
 "use client"
-import {CUSTOMER_TYPE} from "@/Entities/Customer.model";
+import {Customer, CUSTOMER_TYPE} from "@/Entities/Customer.model";
 import * as z from "zod"
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
@@ -7,7 +7,7 @@ import {Button} from "@/components/ui/button"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
-import {useEffect} from "react";
+import {Dispatch, SetStateAction, useEffect} from "react";
 import {searchCustomer} from "@/firebase/firestore/customer-collection";
 
 
@@ -15,7 +15,7 @@ interface CustomerSearchFormProps {
     customerType: CUSTOMER_TYPE,
     customerFirstName: string,
     customerPhoneNumber: string
-    setCustomers: () => void;
+    setCustomers: Dispatch<SetStateAction<Customer[]>>
 }
 
 const TYPES: readonly [CUSTOMER_TYPE.PremiumCustomer, CUSTOMER_TYPE.StandardCustomer, CUSTOMER_TYPE.AllCustomerTypes]
@@ -24,8 +24,8 @@ const TYPES: readonly [CUSTOMER_TYPE.PremiumCustomer, CUSTOMER_TYPE.StandardCust
 
 const formSchema = z.object({
     customerType: z.enum(TYPES),
-    customerFirstName: z.string(),
-    customerPhoneNumber: z.string(),
+    customerFirstName: z.string().min(3, {message: "First name is too short"},),
+    customerPhoneNumber: z.string().min(12, {message: "Phone number is too short"}),
 })
 
 const CustomerSearchForm = ({
@@ -99,10 +99,10 @@ const CustomerSearchForm = ({
                         name="customerFirstName"
                         render={({field}) => (
                             <FormItem>
+                                <FormMessage/>
                                 <FormControl>
                                     <Input placeholder="Ime musterije" {...field} />
                                 </FormControl>
-                                <FormMessage/>
                             </FormItem>
 
                         )}
@@ -112,10 +112,10 @@ const CustomerSearchForm = ({
                         name="customerPhoneNumber"
                         render={({field}) => (
                             <FormItem>
+                                <FormMessage/>
                                 <FormControl>
                                     <Input placeholder="Broj musterije" {...field} />
                                 </FormControl>
-                                <FormMessage/>
                             </FormItem>
 
                         )}

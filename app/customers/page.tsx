@@ -9,6 +9,13 @@ import CustomerAddForm from "@/components/customer-add-form/customer-add-form";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Button} from "@/components/ui/button";
 import CustomerSearchForm from "@/components/customer-serach-form/customer-search-form";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+
+const enum TAB_TYPE {
+    GET_CUSTOMERS = "getCustomers",
+    FIND_CUSTOMER = "findCustomer",
+    ADD_CUSTOMER = "addCustomer"
+}
 
 export default function Customers() {
     const [customers, setCustomers] = useState<Customer[]>([]);
@@ -19,9 +26,10 @@ export default function Customers() {
     );
     const [limit, setLimit] = useState<number>(5);
     const [customerFirstName, setCustomerFirstName] = useState<string>("")
-    const [customerPhoneNumber, setCustomerPhoneNumber] = useState<string>("")
+    const [customerPhoneNumber, EsetCustomerPhoneNumber] = useState<string>("")
 
     const c: Customer[] = [];
+
 
     useEffect(() => {
         const fetchCustomers = async () => {
@@ -37,7 +45,7 @@ export default function Customers() {
             res.customers.length > 0 ? setCustomers(res.customers) : setCustomers([]);
             res.last && setLast(res.last);
         });
-    }, [customerType, limit, setCustomers]);
+    }, [limit]);
 
     const paginationHandler = () => {
         const fetchCustomers = async () => {
@@ -51,24 +59,45 @@ export default function Customers() {
         });
     };
 
+    const customerTypeHandler = (e: any) => {
+        setCustomerType(e === CUSTOMER_TYPE.AllCustomerTypes ? CUSTOMER_TYPE.AllCustomerTypes
+            : e === CUSTOMER_TYPE.StandardCustomer ? CUSTOMER_TYPE.StandardCustomer
+                : CUSTOMER_TYPE.PremiumCustomer);
+    }
+
     return (
         <section className="customerSection">
-            <Tabs defaultValue="getCustomers" className="flex w-[80%] flex-col">
+            <Tabs defaultValue={TAB_TYPE.GET_CUSTOMERS} className="flex w-[80%] flex-col">
                 <TabsList className="bg-zinc-900/60">
-                    <TabsTrigger className="text-slate-200 w-full" value="getCustomers">Pregled musterija</TabsTrigger>
-                    <TabsTrigger className="text-slate-200 w-full" value="findCustomer">Pronadji musteriju</TabsTrigger>
-                    <TabsTrigger className="text-slate-200 w-full" value="addCustomer">Dodaj musteriju</TabsTrigger>
+                    <TabsTrigger
+                        onClick={() => setLast(undefined)}
+                        className="text-slate-200 w-full"
+                        value={TAB_TYPE.GET_CUSTOMERS}>Pregled musterija</TabsTrigger>
+                    <TabsTrigger
+                        className="text-slate-200 w-full"
+                        value={TAB_TYPE.FIND_CUSTOMER}>Pronadji musteriju</TabsTrigger>
+                    <TabsTrigger
+                        className="text-slate-200 w-full"
+                        value={TAB_TYPE.ADD_CUSTOMER}>Dodaj musteriju</TabsTrigger>
                 </TabsList>
-                <TabsContent value="addCustomer" className="flex flex-col mt-6 justify-center items-center">
-                    <div className="flex max-w-lg bg-zinc-500 p-6 rounded-lg min-w-[50%]">
-                        <CustomerAddForm/>
-                    </div>
-                </TabsContent>
                 <TabsContent value="getCustomers" className="flex flex-col mt-6 justify-center items-start">
                     <div className="grid w-full grid-cols-4 p-2 gap-3">
+                        <Select onValueChange={(e) => customerTypeHandler(e)}
+                                defaultValue={CUSTOMER_TYPE.AllCustomerTypes}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tip musterije"/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem
+                                    value={CUSTOMER_TYPE.AllCustomerTypes}>{CUSTOMER_TYPE.AllCustomerTypes}</SelectItem>
+                                <SelectItem
+                                    value={CUSTOMER_TYPE.StandardCustomer}>{CUSTOMER_TYPE.StandardCustomer}</SelectItem>
+                                <SelectItem
+                                    value={CUSTOMER_TYPE.PremiumCustomer}>{CUSTOMER_TYPE.PremiumCustomer}</SelectItem>
+                            </SelectContent>
+                        </Select>
                         {customers &&
                             customers.map((customer) => {
-                                console.log(customer)
                                 return (
                                     <CustomerCard key={customer.customerId} customer={customer}/>
                                 )
@@ -85,12 +114,16 @@ export default function Customers() {
                         <div className="grid w-full grid-cols-4 p-2 gap-3">
                             {customers &&
                                 customers.map((customer) => {
-                                    console.log(customer)
                                     return (
                                         <CustomerCard key={customer.customerId} customer={customer}/>
                                     )
                                 })}
                         </div>
+                    </div>
+                </TabsContent>
+                <TabsContent value="addCustomer" className="flex flex-col mt-6 justify-center items-center">
+                    <div className="flex max-w-lg bg-zinc-500 p-6 rounded-lg min-w-[50%]">
+                        <CustomerAddForm/>
                     </div>
                 </TabsContent>
             </Tabs>
