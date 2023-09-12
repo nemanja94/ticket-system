@@ -9,7 +9,6 @@ import CustomerAddForm from "@/components/customer-add-form/customer-add-form";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Button} from "@/components/ui/button";
 import CustomerSearchForm from "@/components/customer-serach-form/customer-search-form";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 const enum TAB_TYPE {
     GET_CUSTOMERS = "getCustomers",
@@ -59,11 +58,11 @@ export default function Customers() {
         });
     };
 
-    const customerTypeHandler = (e: any) => {
-        setCustomerType(e === CUSTOMER_TYPE.AllCustomerTypes ? CUSTOMER_TYPE.AllCustomerTypes
-            : e === CUSTOMER_TYPE.StandardCustomer ? CUSTOMER_TYPE.StandardCustomer
-                : CUSTOMER_TYPE.PremiumCustomer);
-    }
+    // const customerTypeHandler = (e: any) => {
+    //     setCustomerType(e === CUSTOMER_TYPE.AllCustomerTypes ? CUSTOMER_TYPE.AllCustomerTypes
+    //         : e === CUSTOMER_TYPE.StandardCustomer ? CUSTOMER_TYPE.StandardCustomer
+    //             : CUSTOMER_TYPE.PremiumCustomer);
+    // }
 
     return (
         <section className="customerSection">
@@ -82,20 +81,20 @@ export default function Customers() {
                 </TabsList>
                 <TabsContent value="getCustomers" className="flex flex-col mt-6 justify-center items-start">
                     <div className="grid w-full grid-cols-4 p-2 gap-3">
-                        <Select onValueChange={(e) => customerTypeHandler(e)}
-                                defaultValue={CUSTOMER_TYPE.AllCustomerTypes}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Tip musterije"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem
-                                    value={CUSTOMER_TYPE.AllCustomerTypes}>{CUSTOMER_TYPE.AllCustomerTypes}</SelectItem>
-                                <SelectItem
-                                    value={CUSTOMER_TYPE.StandardCustomer}>{CUSTOMER_TYPE.StandardCustomer}</SelectItem>
-                                <SelectItem
-                                    value={CUSTOMER_TYPE.PremiumCustomer}>{CUSTOMER_TYPE.PremiumCustomer}</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        {/*<Select onValueChange={(e) => customerTypeHandler(e)}*/}
+                        {/*        defaultValue={CUSTOMER_TYPE.AllCustomerTypes}>*/}
+                        {/*    <SelectTrigger>*/}
+                        {/*        <SelectValue placeholder="Tip musterije"/>*/}
+                        {/*    </SelectTrigger>*/}
+                        {/*    <SelectContent>*/}
+                        {/*        <SelectItem*/}
+                        {/*            value={CUSTOMER_TYPE.AllCustomerTypes}>{CUSTOMER_TYPE.AllCustomerTypes}</SelectItem>*/}
+                        {/*        <SelectItem*/}
+                        {/*            value={CUSTOMER_TYPE.StandardCustomer}>{CUSTOMER_TYPE.StandardCustomer}</SelectItem>*/}
+                        {/*        <SelectItem*/}
+                        {/*            value={CUSTOMER_TYPE.PremiumCustomer}>{CUSTOMER_TYPE.PremiumCustomer}</SelectItem>*/}
+                        {/*    </SelectContent>*/}
+                        {/*</Select>*/}
                         {customers &&
                             customers.map((customer) => {
                                 return (
