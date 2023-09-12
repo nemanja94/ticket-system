@@ -24,8 +24,8 @@ const TYPES: readonly [CUSTOMER_TYPE.PremiumCustomer, CUSTOMER_TYPE.StandardCust
 
 const formSchema = z.object({
     customerType: z.enum(TYPES),
-    customerFirstName: z.string().min(3, {message: "First name is too short"},),
-    customerPhoneNumber: z.string().min(12, {message: "Phone number is too short"}),
+    customerFirstName: z.string(),
+    customerPhoneNumber: z.string(),
 })
 
 const CustomerSearchForm = ({
