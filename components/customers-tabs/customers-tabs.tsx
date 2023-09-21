@@ -1,6 +1,6 @@
-import CustomerAddForm from "../customer-add-form/customer-add-form";
-import { Button } from "../ui/button";
+import CustomerAddForm from "./customer-add-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import CustomerSearchForm from "./customer-search-form";
 import CustomersPaginated from "./customers-paginated";
 
 const enum TAB_TYPE {
@@ -37,7 +37,7 @@ export default function CustomersTabs() {
       </TabsList>
       <TabsContent
         value="getCustomers"
-        className="flex flex-col mt-6 justify-center items-start"
+        className="flex flex-col justify-center items-start"
       >
         <CustomersPaginated />
       </TabsContent>
@@ -45,22 +45,7 @@ export default function CustomersTabs() {
         value="findCustomer"
         className="flex flex-col mt-6 justify-center items-center"
       >
-        <div className="flex flex-col">
-          {/* <CustomerSearchForm
-            customerType={customerType}
-            customerFirstName={customerFirstName}
-            customerPhoneNumber={customerPhoneNumber}
-            setCustomers={setCustomers}
-          />
-          <div className="grid w-full grid-cols-4 p-2 gap-3">
-            {customers &&
-              customers.map((customer) => {
-                return (
-                  <CustomerCard key={customer.customerId} customer={customer} />
-                );
-              })}
-          </div> */}
-        </div>
+        <CustomerSearchForm />
       </TabsContent>
       <TabsContent
         value="addCustomer"

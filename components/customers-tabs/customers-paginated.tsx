@@ -1,21 +1,11 @@
 "use client";
 import { CUSTOMER_TYPE, Customer } from "@/Entities/Customer.model";
+import { paginatedCustomers } from "@/firebase/firestore/customer-collection";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import {
-  getFirstBatch,
-  paginatedCustomers,
-} from "@/firebase/firestore/customer-collection";
 import CustomerCard from "../customer-card/customer-card.component";
-import { Label } from "../ui/label";
+import { Button } from "../ui/button";
+import CustomerTypeSelect from "./customer-type-select";
 
 export default function CustomersPaginated() {
   const [customerType, setCustomerType] = useState<CUSTOMER_TYPE>(
@@ -45,7 +35,7 @@ export default function CustomersPaginated() {
     });
   }, [limit]);
 
-  const customerTypeHandler = (e: any) => {
+  const customerTypeHandler = (e: string) => {
     setCustomerType(
       e === CUSTOMER_TYPE.AllCustomerTypes
         ? CUSTOMER_TYPE.AllCustomerTypes
@@ -69,29 +59,7 @@ export default function CustomersPaginated() {
 
   return (
     <>
-      <div className="flex flex-col w-[7rem] self-center">
-        <Label />
-        <Select
-          onValueChange={(e) => customerTypeHandler(e)}
-          defaultValue={CUSTOMER_TYPE.AllCustomerTypes}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Tip musterije" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={CUSTOMER_TYPE.AllCustomerTypes}>
-              {CUSTOMER_TYPE.AllCustomerTypes}
-            </SelectItem>
-            <SelectItem value={CUSTOMER_TYPE.StandardCustomer}>
-              {CUSTOMER_TYPE.StandardCustomer}
-            </SelectItem>
-            <SelectItem value={CUSTOMER_TYPE.PremiumCustomer}>
-              {CUSTOMER_TYPE.PremiumCustomer}
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
+      <CustomerTypeSelect customerTypeHandler={customerTypeHandler} />
       <div className="grid w-full grid-cols-4 p-2 gap-3">
         {customers &&
           customers.map((customer) => {

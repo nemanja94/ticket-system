@@ -76,7 +76,7 @@ const CustomerAddForm = () => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-[14rem]">
                     <SelectValue placeholder="Tip musterije" />
                   </SelectTrigger>
                   <SelectContent>
