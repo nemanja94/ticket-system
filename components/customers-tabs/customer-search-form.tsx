@@ -138,7 +138,7 @@ const CustomerSearchForm = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <div className="grid grid-cols-4 mt-5 w-[97%] gap-3">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-5 w-[97%] gap-3">
         {customers &&
           customers.map((customer) => {
             return (

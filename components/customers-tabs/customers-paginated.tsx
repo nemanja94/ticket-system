@@ -60,7 +60,7 @@ export default function CustomersPaginated() {
   return (
     <>
       <CustomerTypeSelect customerTypeHandler={customerTypeHandler} />
-      <div className="grid w-full grid-cols-4 p-2 gap-3">
+      <div className="grid w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 p-2 gap-3">
         {customers &&
           customers.map((customer) => {
             switch (customerType) {
