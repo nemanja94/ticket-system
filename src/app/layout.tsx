@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Otac i sin",
@@ -14,7 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="layoutContainer">{children}</main>
+        <main className="layoutContainer">
+          <Navbar />
+          {children}
+        </main>
       </body>
     </html>
   );
