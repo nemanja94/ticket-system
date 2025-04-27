@@ -58,6 +58,15 @@ const CustomerAddForm = () => {
       Timestamp.fromDate(values.customerDateCreated)
     );
     const res = await addCustomer(customer);
+
+    if (typeof res === "string") {
+      form.reset();
+    } else if (res === false) {
+      form.setError("customerNumber", {
+        type: "custom",
+        message: "Customer number already in use",
+      });
+    }
   };
   return (
     <Form {...form}>
