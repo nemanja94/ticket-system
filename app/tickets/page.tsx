@@ -42,15 +42,16 @@ const tickets: Ticket[] = [
 
 const Tickets: NextPage = () => {
     return (
-        <section className="ticketSection">
-            {tickets.map((ticket) => {
-                // @ts-ignore
-                ticket.ticketDateCreated = new Date(ticket.ticketDateCreated.seconds * 1000).toISOString().split("T")[0]
-                return (
-                    <TicketCard key={ticket.ticketId} ticket={ticket}/>
-                );
-            })}
-        </section>
+        // <section className="ticketSection">
+        //     {tickets.map((ticket) => {
+        //         // @ts-ignore
+        //         ticket.ticketDateCreated = new Date(ticket.ticketDateCreated.seconds * 1000).toISOString().split("T")[0]
+        //         return (
+        //             <TicketCard key={ticket.ticketId} ticket={ticket}/>
+        //         );
+        //     })}
+        // </section>
+        <p>Tickets</p>
     );
 };
 

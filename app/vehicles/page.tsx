@@ -54,16 +54,17 @@ const vehicles: Vehicle[] = [
 
 export default function Vehicles() {
     return (
-        <section className="vehicleSection">
-            {vehicles &&
-                vehicles.map((vehicle) => {
-                    // @ts-ignore
-                    // vehicle.vehicleDateCreated = new Date(vehicle.vehicleDateCreated.seconds * 1000).toISOString().split("T")[0]
-                    vehicle.vehicleDateCreated = new Date(vehicle.vehicleDateCreated.seconds * 1000).toISOString().split("T")[0]
-                    return (
-                        <VehicleCard key={vehicle.vehicleId} vehicle={vehicle}/>
-                    )
-                })}
-        </section>
+        // <section className="vehicleSection">
+        //     {vehicles &&
+        //         vehicles.map((vehicle) => {
+        //             // @ts-ignore
+        //             // vehicle.vehicleDateCreated = new Date(vehicle.vehicleDateCreated.seconds * 1000).toISOString().split("T")[0]
+        //             vehicle.vehicleDateCreated = new Date(vehicle.vehicleDateCreated.seconds * 1000).toISOString().split("T")[0]
+        //             return (
+        //                 <VehicleCard key={vehicle.vehicleId} vehicle={vehicle}/>
+        //             )
+        //         })}
+        // </section>
+        <p>Vehicles</p>
     );
 }
