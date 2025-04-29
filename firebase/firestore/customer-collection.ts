@@ -88,7 +88,6 @@ export const addCustomer = async (
     customer.customerType,
     "",
   );
-  console.log(existingCustomer);
   if (existingCustomer.customers.length > 0) return false;
 
   const docRef = await addDoc(collection(db, "customers"), {
