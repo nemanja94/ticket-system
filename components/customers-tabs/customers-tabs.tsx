@@ -13,7 +13,7 @@ export default function CustomersTabs() {
   return (
     <Tabs
       defaultValue={TAB_TYPE.GET_CUSTOMERS}
-      className="flex w-[80%] flex-col"
+      className="flex w-[95%] flex-col"
     >
       {/* Tabs */}
       <TabsList className="bg-zinc-900/60">
