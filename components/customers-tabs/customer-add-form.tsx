@@ -50,14 +50,49 @@ const CustomerAddForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!values.customerType)
+      form.setError("customerNumber", {
+        type: "custom",
+        message: "Customer number already in use",
+      });
+    if (!values.customerFirstName)
+      form.setError("customerFirstName", {
+        type: "custom",
+        message: "Customer first name is required",
+      });
+    if (!values.customerLastName)
+      form.setError("customerLastName", {
+        type: "custom",
+        message: "Customer last name is required",
+      });
+    if (!values.customerNumber)
+      form.setError("customerNumber", {
+        type: "custom",
+        message: "Customer number is required",
+      });
+    if (!values.customerDateCreated)
+      form.setError("customerDateCreated", {
+        type: "custom",
+        message: "Customer date created is required",
+      });
+
     const customer: Customer = new Customer(
       values.customerType,
       values.customerFirstName,
       values.customerLastName,
       values.customerNumber,
-      Timestamp.fromDate(values.customerDateCreated)
+      Timestamp.fromDate(values.customerDateCreated),
     );
     const res = await addCustomer(customer);
+
+    if (typeof res == "string") {
+      form.reset();
+    } else if (res === false) {
+      form.setError("customerNumber", {
+        type: "custom",
+        message: "Customer number already in use",
+      });
+    }
   };
   return (
     <Form {...form}>

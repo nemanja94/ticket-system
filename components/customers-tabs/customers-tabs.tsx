@@ -15,6 +15,7 @@ export default function CustomersTabs() {
       defaultValue={TAB_TYPE.GET_CUSTOMERS}
       className="flex w-[80%] flex-col"
     >
+      {/* Tabs */}
       <TabsList className="bg-zinc-900/60">
         <TabsTrigger
           className="text-slate-200 w-full"
@@ -35,6 +36,8 @@ export default function CustomersTabs() {
           Dodaj musteriju
         </TabsTrigger>
       </TabsList>
+
+      {/* Tabs content */}
       <TabsContent
         value="getCustomers"
         className="flex flex-col justify-center items-start"

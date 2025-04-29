@@ -34,8 +34,8 @@ export const getAllCustomers = async (): Promise<Customer[]> => {
         data.customerLastName,
         data.customerNumber,
         data.customerDateCreated,
-        doc.id
-      )
+        doc.id,
+      ),
     );
   });
 
@@ -48,11 +48,11 @@ export const getAllCustomers = async (): Promise<Customer[]> => {
  * @returns Customers[]
  */
 export const getAllCustomersByType = async (
-  type: CUSTOMER_TYPE
+  type: CUSTOMER_TYPE,
 ): Promise<Customer[]> => {
   const q = query(
     collection(db, "customers"),
-    where("customerType", "==", type)
+    where("customerType", "==", type),
   );
   const snapshot = await getDocs(q);
   const customersColl: Customer[] = [];
@@ -67,15 +67,26 @@ export const getAllCustomersByType = async (
         data.customerFirstName,
         data.customerLastName,
         data.customerNumber,
-        data.customerDateCreated
-      )
+        data.customerDateCreated,
+      ),
     );
   });
 
   return customersColl;
 };
 
-export const addCustomer = async (customer: Customer): Promise<string> => {
+/**
+ * Adds a new customer to the database if a customer with the same phone number doesn't already exist
+ * @param customer Customer object containing all customer information
+ * @returns Promise that resolves to the document ID of the new customer, or false if a customer with the same phone number already exists
+ */
+export const addCustomer = async (
+  customer: Customer,
+): Promise<string | boolean> => {
+  const existingCustomer = await searchCustomer(customer.customerNumber);
+  console.log(existingCustomer);
+  if (existingCustomer.customers.length > 0) return false;
+
   const docRef = await addDoc(collection(db, "customers"), {
     customerDateCreated: customer.customerDateCreated,
     customerFirstName: customer.customerFirstName,
@@ -90,7 +101,7 @@ export const getFirstBatch = async (_limit: number) => {
   const firstBatch = query(
     collection(db, "customers"),
     orderBy("customerDateCreated", "desc"),
-    limit(_limit)
+    limit(_limit),
   );
 
   const documentSnapshots = await getDocs(firstBatch);
@@ -103,7 +114,7 @@ export const getFirstBatch = async (_limit: number) => {
     if (doc.exists()) {
       data = doc.data();
       data.customerDateCreated = new Date(
-        data.customerDateCreated.seconds * 1000
+        data.customerDateCreated.seconds * 1000,
       )
         .toISOString()
         .split("T")[0];
@@ -115,8 +126,8 @@ export const getFirstBatch = async (_limit: number) => {
           data.customerLastName,
           data.customerNumber,
           data.customerDateCreated,
-          doc.id
-        )
+          doc.id,
+        ),
       );
     }
   });
@@ -128,7 +139,7 @@ export const paginatedCustomers = async (
   _lastCustomerId:
     | QueryDocumentSnapshot<DocumentData, DocumentData>
     | undefined,
-  _type?: CUSTOMER_TYPE
+  _type?: CUSTOMER_TYPE,
 ): Promise<{
   customers: Customer[];
   last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
@@ -147,7 +158,7 @@ export const paginatedCustomers = async (
       collection(db, "customers"),
       orderBy("customerDateCreated", "desc"),
       ...constraints,
-      limit(_limit)
+      limit(_limit),
     );
   } else {
     firstBatch = query(
@@ -155,7 +166,7 @@ export const paginatedCustomers = async (
       orderBy("customerDateCreated", "desc"),
       ...constraints,
       startAfter(_lastCustomerId),
-      limit(_limit)
+      limit(_limit),
     );
   }
 
@@ -170,7 +181,7 @@ export const paginatedCustomers = async (
       data = doc.data();
 
       data.customerDateCreated = new Date(
-        data.customerDateCreated.seconds * 1000
+        data.customerDateCreated.seconds * 1000,
       )
         .toISOString()
         .split("T")[0];
@@ -182,8 +193,8 @@ export const paginatedCustomers = async (
           data.customerLastName,
           data.customerNumber,
           data.customerDateCreated,
-          doc.id
-        )
+          doc.id,
+        ),
       );
     }
   });
@@ -192,9 +203,9 @@ export const paginatedCustomers = async (
 };
 
 export const searchCustomer = async (
-  _type: CUSTOMER_TYPE,
-  _firstName: string,
-  _phoneNumber: string
+  _phoneNumber?: string,
+  _type?: CUSTOMER_TYPE,
+  _firstName?: string,
 ): Promise<{
   customers: Customer[];
   last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
@@ -207,15 +218,15 @@ export const searchCustomer = async (
     _type === CUSTOMER_TYPE.PremiumCustomer
   )
     constraints.push(where("customerType", "==", _type));
-  if (_firstName !== "")
+  if (_firstName !== "" && _firstName !== undefined)
     constraints.push(where("customerFirstName", "==", _firstName));
-  if (_phoneNumber !== "")
+  if (_phoneNumber !== "" && _phoneNumber !== undefined)
     constraints.push(where("customerNumber", "==", _phoneNumber));
 
   firstBatch = query(
     collection(db, "customers"),
     orderBy("customerDateCreated", "desc"),
-    ...constraints
+    ...constraints,
   );
 
   const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
@@ -230,7 +241,7 @@ export const searchCustomer = async (
       data = doc.data();
 
       data.customerDateCreated = new Date(
-        data.customerDateCreated.seconds * 1000
+        data.customerDateCreated.seconds * 1000,
       )
         .toISOString()
         .split("T")[0];
@@ -242,8 +253,8 @@ export const searchCustomer = async (
           data.customerLastName,
           data.customerNumber,
           data.customerDateCreated,
-          doc.id
-        )
+          doc.id,
+        ),
       );
     }
   });
