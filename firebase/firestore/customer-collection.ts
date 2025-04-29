@@ -83,7 +83,11 @@ export const getAllCustomersByType = async (
 export const addCustomer = async (
   customer: Customer,
 ): Promise<string | boolean> => {
-  const existingCustomer = await searchCustomer(customer.customerNumber);
+  const existingCustomer = await searchCustomer(
+    customer.customerNumber,
+    customer.customerType,
+    "",
+  );
   console.log(existingCustomer);
   if (existingCustomer.customers.length > 0) return false;
 
@@ -203,9 +207,9 @@ export const paginatedCustomers = async (
 };
 
 export const searchCustomer = async (
-  _phoneNumber?: string,
-  _type?: CUSTOMER_TYPE,
-  _firstName?: string,
+  _phoneNumber: string,
+  _type: CUSTOMER_TYPE,
+  _firstName: string,
 ): Promise<{
   customers: Customer[];
   last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
@@ -218,9 +222,9 @@ export const searchCustomer = async (
     _type === CUSTOMER_TYPE.PremiumCustomer
   )
     constraints.push(where("customerType", "==", _type));
-  if (_firstName !== "" && _firstName !== undefined)
+  if (_firstName !== "")
     constraints.push(where("customerFirstName", "==", _firstName));
-  if (_phoneNumber !== "" && _phoneNumber !== undefined)
+  if (_phoneNumber !== "")
     constraints.push(where("customerNumber", "==", _phoneNumber));
 
   firstBatch = query(

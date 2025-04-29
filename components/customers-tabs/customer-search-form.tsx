@@ -57,9 +57,9 @@ const CustomerSearchForm = () => {
     const fetchCustomers = async () => {
       try {
         return await searchCustomer(
+          values.customerPhoneNumber,
           values.customerType,
           values.customerFirstName,
-          values.customerPhoneNumber
         );
       } catch (err) {
         console.log(err);
