@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import CustomerCard from "../customer-card/customer-card.component";
 import { Button } from "../ui/button";
 import VehicleTypeSelect from "./vehicle-type-select";
-import useVehicles from "@/hooks/useVehicles";
+// import useVehicles from "@/hooks/useVehicles";
 
 export default function VehiclePaginated() {
   // const [customerType, setCustomerType] = useState<CUSTOMER_TYPE>(
@@ -58,7 +58,7 @@ export default function VehiclePaginated() {
   //   });
   // };
 
-  const { vehicles, isLocadingVehicles, vehiclesError } = useVehicles();
+  // const { vehicles, isLocadingVehicles, vehiclesError } = useVehicles();
 
   return (
     <>

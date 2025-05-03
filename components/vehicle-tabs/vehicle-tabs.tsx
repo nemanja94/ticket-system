@@ -1,4 +1,4 @@
-import VehicleAddForm from "./vehicle-add-form";
+// import VehicleAddForm from "./vehicle-add-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import VehicleSearchForm from "./vehicle-search-form";
 import VehiclePaginated from "./vehicle-paginated";
@@ -55,7 +55,7 @@ export default function VehicleTabs() {
         className="flex flex-col mt-6 justify-center items-center"
       >
         <div className="flex max-w-lg bg-zinc-500 p-6 rounded-lg min-w-[50%]">
-          <VehicleAddForm />
+          {/* <VehicleAddForm /> */}
         </div>
       </TabsContent>
     </Tabs>
