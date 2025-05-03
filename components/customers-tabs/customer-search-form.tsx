@@ -63,13 +63,12 @@ const CustomerSearchForm = () => {
         );
       } catch (err) {
         console.log(err);
-        return { customers: [], last: undefined };
+        return { customers: [] };
       }
     };
 
     fetchCustomers().then((res) => {
       res.customers.length > 0 ? setCustomers(res.customers) : setCustomers([]);
-      // res.last && setLast(res.last);
     });
   };
   return (
