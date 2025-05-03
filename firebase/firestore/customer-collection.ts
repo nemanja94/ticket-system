@@ -137,6 +137,7 @@ export const getFirstBatch = async (_limit: number) => {
 
   return { customers: customersColl, last };
 };
+
 export const paginatedCustomers = async (
   _limit: number,
   _lastCustomerId:
@@ -206,27 +207,26 @@ export const paginatedCustomers = async (
 };
 
 export const searchCustomer = async (
-  _phoneNumber: string,
-  _type: CUSTOMER_TYPE,
-  _firstName: string,
+  _phoneNumber?: string,
+  _type?: CUSTOMER_TYPE,
+  _firstName?: string,
 ): Promise<{
   customers: Customer[];
-  last: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
 }> => {
-  let firstBatch;
   let constraints: QueryFieldFilterConstraint[] = [];
 
   if (
-    _type === CUSTOMER_TYPE.StandardCustomer ||
-    _type === CUSTOMER_TYPE.PremiumCustomer
+    _type &&
+    (_type === CUSTOMER_TYPE.StandardCustomer ||
+      _type === CUSTOMER_TYPE.PremiumCustomer)
   )
     constraints.push(where("customerType", "==", _type));
-  if (_firstName !== "")
+  if (_firstName && _firstName !== "")
     constraints.push(where("customerFirstName", "==", _firstName));
-  if (_phoneNumber !== "")
+  if (_phoneNumber && _phoneNumber !== "")
     constraints.push(where("customerNumber", "==", _phoneNumber));
 
-  firstBatch = query(
+  let firstBatch = query(
     collection(db, "customers"),
     orderBy("customerDateCreated", "desc"),
     ...constraints,
@@ -234,7 +234,6 @@ export const searchCustomer = async (
 
   const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
     await getDocs(firstBatch);
-  const last = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
   const customersColl: Customer[] = [];
   let data: DocumentData;
@@ -262,5 +261,5 @@ export const searchCustomer = async (
     }
   });
 
-  return { customers: customersColl, last };
+  return { customers: customersColl };
 };
