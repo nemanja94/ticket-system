@@ -6,7 +6,7 @@ import Image from "next/image";
 const Logo = () => {
   return (
     <div className={styles.logo}>
-      <Image src={logo} width={130} alt="logo" />
+      <Image src={logo} width={130} alt="logo" priority />
     </div>
   );
 };
