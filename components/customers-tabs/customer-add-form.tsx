@@ -70,11 +70,6 @@ const CustomerAddForm = () => {
         type: "custom",
         message: "Customer number is required",
       });
-    if (!values.customerDateCreated)
-      form.setError("customerDateCreated", {
-        type: "custom",
-        message: "Customer date created is required",
-      });
 
     const customer: Customer = new Customer(
       values.customerType,

@@ -68,6 +68,52 @@ const VehicleAddForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!values.vehicleDisplacement)
+      form.setError("vehicleDisplacement", {
+        type: "custom",
+        message: "Vehicle displacement is required",
+      });
+    if (!values.vehiclePower)
+      form.setError("vehiclePower", {
+        type: "custom",
+        message: "Vehicle power is required",
+      });
+    if (!values.vehicleMilage)
+      form.setError("vehicleMilage", {
+        type: "custom",
+        message: "Vehicle milage is required",
+      });
+    if (!values.vehicleIdNumber)
+      form.setError("vehicleIdNumber", {
+        type: "custom",
+        message: "Vehicle ID number is required",
+      });
+    if (!values.vehiclePlateNumber)
+      form.setError("vehiclePlateNumber", {
+        type: "custom",
+        message: "Vehicle plate number is required",
+      });
+    if (!values.vehicleDesc)
+      form.setError("vehicleDesc", {
+        type: "custom",
+        message: "Vehicle description is required",
+      });
+    if (!values.vehicleManufacturer)
+      form.setError("vehicleManufacturer", {
+        type: "custom",
+        message: "Vehicle manufacturer is required",
+      });
+    if (!values.vehicleModel)
+      form.setError("vehicleModel", {
+        type: "custom",
+        message: "Vehicle model is required",
+      });
+    if (!values.vehicleFuelType)
+      form.setError("vehicleFuelType", {
+        type: "custom",
+        message: "Vehicle fuel type is required",
+      });
+
     const vehicle: Vehicle = new Vehicle(
       values.customerId,
       values.vehicleDateManufactured,
@@ -88,10 +134,14 @@ const VehicleAddForm = () => {
 
     if (typeof res == "string") {
       form.reset();
+      setSelectedManufacturerName("");
+      setSelectedManufacturerId("");
+      setSelectedModelName("");
+      setSelectedFuelTypeName("");
     } else if (res === false) {
       form.setError("vehicleIdNumber", {
         type: "custom",
-        message: "Invalid ID number",
+        message: "Vozilo se nalazi u bazi",
       });
     }
   };

@@ -5,7 +5,6 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import CustomerCard from "../customer-card/customer-card.component";
 import { Button } from "../ui/button";
-import VehicleTypeSelect from "./vehicle-type-select";
 // import useVehicles from "@/hooks/useVehicles";
 
 export default function VehiclePaginated() {
