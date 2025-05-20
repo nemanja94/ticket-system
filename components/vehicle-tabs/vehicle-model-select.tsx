@@ -100,11 +100,6 @@ const VehicleModelSelect = ({
           </FormItem>
         )}
       />
-      {selectedModelName && (
-        <div className="text-sm text-gray-500 mt-1">
-          Selected: <span className="font-medium">{selectedModelName}</span>
-        </div>
-      )}
     </>
   );
 };

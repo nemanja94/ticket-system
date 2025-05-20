@@ -81,11 +81,6 @@ const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => {
           </FormItem>
         )}
       />
-      {selectedFuelTypeName && (
-        <div className="text-sm text-gray-500 mt-1">
-          Selected: <span className="font-medium">{selectedFuelTypeName}</span>
-        </div>
-      )}
     </>
   );
 };

@@ -1,11 +1,11 @@
 "use client";
 
-import { 
-  FormControl, 
-  FormField, 
+import {
+  FormControl,
+  FormField,
   FormItem,
   FormLabel,
-  FormMessage 
+  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -24,13 +24,15 @@ interface ManufacturerSelectProps {
   onChange?: (manufacturerId: string, manufacturerName: string) => void;
 }
 
-const ManufacturerSelect = ({ 
-  control, 
-  name, 
-  onChange 
+const ManufacturerSelect = ({
+  control,
+  name,
+  onChange,
 }: ManufacturerSelectProps) => {
-  const { manufacturers, isLoadingManufacturers, manufacturersError } = useManufacturers();
-  const [selectedManufacturerName, setSelectedManufacturerName] = useState<string>("");
+  const { manufacturers, isLoadingManufacturers, manufacturersError } =
+    useManufacturers();
+  const [selectedManufacturerName, setSelectedManufacturerName] =
+    useState<string>("");
 
   return (
     <>
@@ -45,9 +47,13 @@ const ManufacturerSelect = ({
                 onValueChange={(value) => {
                   field.onChange(value);
                   // Find selected manufacturer and set its name
-                  const selectedManufacturer = manufacturers.find(m => m.manufacturerId === value);
+                  const selectedManufacturer = manufacturers.find(
+                    (m) => m.manufacturerId === value,
+                  );
                   if (selectedManufacturer) {
-                    setSelectedManufacturerName(selectedManufacturer.manufacturerName);
+                    setSelectedManufacturerName(
+                      selectedManufacturer.manufacturerName,
+                    );
                     // Notify parent component if callback provided
                     if (onChange) {
                       onChange(value, selectedManufacturer.manufacturerName);
@@ -75,11 +81,6 @@ const ManufacturerSelect = ({
           </FormItem>
         )}
       />
-      {selectedManufacturerName && (
-        <div className="text-sm text-gray-500 mt-1">
-          Selected: <span className="font-medium">{selectedManufacturerName}</span>
-        </div>
-      )}
     </>
   );
 };
