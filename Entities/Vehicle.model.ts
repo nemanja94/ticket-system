@@ -1,22 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import { Customer } from "./Customer.model";
 
-export enum VehicleManufacturer {
-  Audi = "Audi",
-  Lada = "Lada",
-}
-
-export enum VehicleModel {
-  Audi_A1 = "A1",
-  Lada_Samata = "Samara",
-}
-
-export enum FuelType {
-  Benzin = "Benzin",
-  Dizel = "Dizel",
-  Plin = "Plin",
-}
-
 export class Vehicle {
   constructor(
     customerId: Customer["customerId"],
@@ -29,11 +13,11 @@ export class Vehicle {
     vehicleDesc: string,
     vehicleDateCreated: Timestamp | string,
     vehicleId?: string,
-    vehicleManufacturer?: VehicleManufacturer,
-    vehicleModel?: VehicleModel,
-    vehicleFuelType?: FuelType,
+    vehicleManufacturer?: string,
+    vehicleModel?: string,
+    vehicleFuelType?: string,
     vehicleDateUpdated?: Timestamp,
-    vehicleDateDeleted?: Timestamp
+    vehicleDateDeleted?: Timestamp,
   ) {
     this.customerId = customerId;
     this.vehicleDateManufactured = vehicleDateManufactured;
@@ -62,9 +46,9 @@ export class Vehicle {
   vehicleDesc: string;
   vehicleDateCreated: Timestamp | string;
   vehicleId?: string;
-  vehicleManufacturer?: VehicleManufacturer;
-  vehicleModel?: VehicleModel;
-  vehicleFuelType?: FuelType;
+  vehicleManufacturer?: string;
+  vehicleModel?: string;
+  vehicleFuelType?: string;
   vehicleDateUpdated?: Timestamp;
   vehicleDateDeleted?: Timestamp;
 }
