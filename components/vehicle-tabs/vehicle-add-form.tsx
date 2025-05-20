@@ -27,6 +27,7 @@ import { useState } from "react";
 import ManufacturerSelect from "./manufacturer-select";
 import VehicleModelSelect from "./vehicle-model-select";
 import FuelTypeSelect from "./fuel-type-select";
+import { CustomerSelect } from "../customer-select/customer-select";
 
 const formSchema = z.object({
   customerId: z.string(),
@@ -131,33 +132,13 @@ const VehicleAddForm = () => {
         />
 
         {/* VEHICLE OWNER, CUSTOMER */}
-        {/* <FormField
+        <CustomerSelect
           control={form.control}
           name="customerId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Vlasnik</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-[14rem]">
-                    <SelectValue placeholder="Vlasnik" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {customers.map((customer, i) => (
-                      <SelectItem key={i} value={customer.customerId!}>
-                        {`${customer.customerFirstName} ${customer.customerLastName}`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+          onChange={(customerId, customerName) => {
+            setSelectedFuelTypeName(customerName);
+          }}
+        />
 
         {/* VEHICLE DATE MANUFACTURED */}
         <FormField
