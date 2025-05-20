@@ -16,27 +16,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { searchCustomer } from "@/firebase/firestore/customer-collection";
+import { searchCustomer as searchVehicle } from "@/firebase/firestore/customer-collection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import CustomerCard from "../customer-card/customer-card.component";
 
-const TYPES: readonly [
-  CUSTOMER_TYPE.PremiumCustomer,
-  CUSTOMER_TYPE.StandardCustomer,
-  CUSTOMER_TYPE.AllCustomerTypes,
-] = [
-  CUSTOMER_TYPE.PremiumCustomer,
-  CUSTOMER_TYPE.StandardCustomer,
-  CUSTOMER_TYPE.AllCustomerTypes,
-] as const;
+// const TYPES: readonly [
+//   CUSTOMER_TYPE.PremiumCustomer,
+//   CUSTOMER_TYPE.StandardCustomer,
+//   CUSTOMER_TYPE.AllCustomerTypes,
+// ] = [
+//   CUSTOMER_TYPE.PremiumCustomer,
+//   CUSTOMER_TYPE.StandardCustomer,
+//   CUSTOMER_TYPE.AllCustomerTypes,
+// ] as const;
 
 const formSchema = z.object({
-  customerType: z.enum(TYPES),
-  customerFirstName: z.string(),
-  customerPhoneNumber: z.string(),
+  // vehicleManufacturer: z.enum(),
+  // customerType: z.enum(TYPES),
+  // customerFirstName: z.string(),
+  // customerPhoneNumber: z.string(),
 });
 
 const VehicleSearchForm = () => {
@@ -54,20 +55,19 @@ const VehicleSearchForm = () => {
     setCustomers([]);
   }, [setCustomers]);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const fetchCustomers = async () => {
+    const fetchVehicles = async () => {
       try {
-        return await searchCustomer(
-          values.customerPhoneNumber,
-          values.customerType,
-          values.customerFirstName,
-        );
+        return await searchVehicle();
+        // values.customerPhoneNumber,
+        // values.customerType,
+        // values.customerFirstName,
       } catch (err) {
         console.log(err);
         return { customers: [], last: undefined };
       }
     };
 
-    fetchCustomers().then((res) => {
+    fetchVehicles().then((res) => {
       res.customers.length > 0 ? setCustomers(res.customers) : setCustomers([]);
       // res.last && setLast(res.last);
     });
