@@ -1,9 +1,4 @@
-import {
-  FuelType,
-  Vehicle,
-  VehicleManufacturer,
-  VehicleModel,
-} from "@/Entities/Vehicle.model";
+import { Vehicle } from "@/Entities/Vehicle.model";
 import VehicleTabs from "@/components/vehicle-tabs/vehicle-tabs";
 import { Timestamp } from "firebase/firestore";
 import "./vehiclePage.css";

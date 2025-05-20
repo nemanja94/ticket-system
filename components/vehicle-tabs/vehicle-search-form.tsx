@@ -34,10 +34,10 @@ import CustomerCard from "../customer-card/customer-card.component";
 // ] as const;
 
 const formSchema = z.object({
-  // vehicleManufacturer: z.enum(),
-  // customerType: z.enum(TYPES),
-  // customerFirstName: z.string(),
-  // customerPhoneNumber: z.string(),
+  vehicleManufacturer: z.string(),
+  customerType: z.string(),
+  customerFirstName: z.string(),
+  customerPhoneNumber: z.string(),
 });
 
 const VehicleSearchForm = () => {
