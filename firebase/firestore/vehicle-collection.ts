@@ -15,6 +15,7 @@ import {
 export const addVehicle = async (
   vehicle: Vehicle,
 ): Promise<string | boolean> => {
+  console.log("CALLED");
   const existingVehicle = await searchVehicle(
     vehicle.customerId,
     vehicle.vehicleIdNumber,

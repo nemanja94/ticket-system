@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/select";
 import useManufacturers from "@/hooks/useManufacturers";
 import { Control } from "react-hook-form";
-import { useState } from "react";
 
 interface ManufacturerSelectProps {
   control: Control<any>;
@@ -29,59 +28,47 @@ const ManufacturerSelect = ({
   name,
   onChange,
 }: ManufacturerSelectProps) => {
-  const { manufacturers, isLoadingManufacturers, manufacturersError } =
-    useManufacturers();
-  const [selectedManufacturerName, setSelectedManufacturerName] =
-    useState<string>("");
+  const { manufacturers } = useManufacturers();
 
   return (
-    <>
-      <FormField
-        control={control}
-        name={name}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Proizvodjac</FormLabel>
-            <FormControl>
-              <Select
-                onValueChange={(value) => {
-                  field.onChange(value);
-                  // Find selected manufacturer and set its name
-                  const selectedManufacturer = manufacturers.find(
-                    (m) => m.manufacturerId === value,
-                  );
-                  if (selectedManufacturer) {
-                    setSelectedManufacturerName(
-                      selectedManufacturer.manufacturerName,
-                    );
-                    // Notify parent component if callback provided
-                    if (onChange) {
-                      onChange(value, selectedManufacturer.manufacturerName);
-                    }
-                  }
-                }}
-                defaultValue={field.value}
-              >
-                <SelectTrigger className="w-[14rem]">
-                  <SelectValue placeholder="Proizvodjac" />
-                </SelectTrigger>
-                <SelectContent>
-                  {manufacturers.map((manufacturer) => (
-                    <SelectItem
-                      key={manufacturer.manufacturerId}
-                      value={manufacturer.manufacturerId!}
-                    >
-                      {manufacturer.manufacturerName}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </>
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Proizvodjac</FormLabel>
+          <FormControl>
+            <Select
+              onValueChange={(value) => {
+                field.onChange(value);
+                const selectedManufacturer = manufacturers.find(
+                  (m) => m.manufacturerId === value,
+                );
+                if (selectedManufacturer && onChange) {
+                  onChange(value, selectedManufacturer.manufacturerName);
+                }
+              }}
+              defaultValue={field.value}
+            >
+              <SelectTrigger className="w-[14rem]">
+                <SelectValue placeholder="Proizvodjac" />
+              </SelectTrigger>
+              <SelectContent>
+                {manufacturers.map((manufacturer) => (
+                  <SelectItem
+                    key={manufacturer.manufacturerId}
+                    value={manufacturer.manufacturerId!}
+                  >
+                    {manufacturer.manufacturerName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 };
 

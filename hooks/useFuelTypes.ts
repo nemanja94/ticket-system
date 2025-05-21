@@ -29,7 +29,6 @@ export default function useFuelTypes() {
           const allFuelTypes: FuelType[] = [];
 
           querySnapshot.forEach((doc) => {
-            console.log(doc.id, doc.data());
             allFuelTypes.push({
               fuelTypeId: doc.id,
               fuelTypeName: doc.data().type,

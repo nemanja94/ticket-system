@@ -47,21 +47,21 @@ export function CustomerSelect({
             <Select
               onValueChange={(value) => {
                 field.onChange(value);
-                // Find selected custoemr  and set its name
-                const selectedFuelType = customers.find(
+                // Find selected customer and set its name
+                const foundCustomer = customers.find(
                   (sc) => sc.customerId === value,
                 );
-                if (selectedCustomer) {
-                  setSelectedCustomer(selectedCustomer);
+                if (foundCustomer) {
+                  setSelectedCustomer(foundCustomer);
                   // Notify parent component if callback provided
                   if (onChange) {
                     onChange(
                       value,
-                      selectedCustomer.customerFirstName +
+                      foundCustomer.customerFirstName +
                         " " +
-                        selectedCustomer.customerLastName +
+                        foundCustomer.customerLastName +
                         " " +
-                        selectedCustomer.customerNumber,
+                        foundCustomer.customerNumber,
                     );
                   }
                 }

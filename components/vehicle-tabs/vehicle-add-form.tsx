@@ -8,13 +8,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Vehicle } from "@/Entities/Vehicle.model";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Timestamp } from "firebase/firestore";
@@ -45,12 +38,9 @@ const formSchema = z.object({
 });
 
 const VehicleAddForm = () => {
-  const [selectedManufacturerName, setSelectedManufacturerName] =
-    useState<string>("");
   const [selectedManufacturerId, setSelectedManufacturerId] =
     useState<string>("");
-  const [selectedModelName, setSelectedModelName] = useState<string>("");
-  const [selectedFuelTypeName, setSelectedFuelTypeName] = useState<string>("");
+  const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,51 +58,23 @@ const VehicleAddForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (!values.vehicleDisplacement)
-      form.setError("vehicleDisplacement", {
-        type: "custom",
-        message: "Vehicle displacement is required",
-      });
-    if (!values.vehiclePower)
-      form.setError("vehiclePower", {
-        type: "custom",
-        message: "Vehicle power is required",
-      });
-    if (!values.vehicleMilage)
-      form.setError("vehicleMilage", {
-        type: "custom",
-        message: "Vehicle milage is required",
-      });
-    if (!values.vehicleIdNumber)
-      form.setError("vehicleIdNumber", {
-        type: "custom",
-        message: "Vehicle ID number is required",
-      });
-    if (!values.vehiclePlateNumber)
-      form.setError("vehiclePlateNumber", {
-        type: "custom",
-        message: "Vehicle plate number is required",
-      });
-    if (!values.vehicleDesc)
-      form.setError("vehicleDesc", {
-        type: "custom",
-        message: "Vehicle description is required",
-      });
-    if (!values.vehicleManufacturer)
-      form.setError("vehicleManufacturer", {
-        type: "custom",
-        message: "Vehicle manufacturer is required",
-      });
-    if (!values.vehicleModel)
-      form.setError("vehicleModel", {
-        type: "custom",
-        message: "Vehicle model is required",
-      });
-    if (!values.vehicleFuelType)
-      form.setError("vehicleFuelType", {
-        type: "custom",
-        message: "Vehicle fuel type is required",
-      });
+    if (
+      !values.customerId ||
+      values.customerId === "" ||
+      !values.vehicleIdNumber ||
+      values.vehicleIdNumber === "" ||
+      !values.vehiclePlateNumber ||
+      values.vehiclePlateNumber === "" ||
+      !values.vehicleManufacturer ||
+      values.vehicleManufacturer === "" ||
+      !values.vehicleModel ||
+      values.vehicleModel === "" ||
+      !values.vehicleFuelType ||
+      values.vehicleFuelType === ""
+    ) {
+      await checkFields(values);
+      return false;
+    }
 
     const vehicle: Vehicle = new Vehicle(
       values.customerId,
@@ -133,17 +95,125 @@ const VehicleAddForm = () => {
     const res = await addVehicle(vehicle);
 
     if (typeof res == "string") {
-      form.reset();
-      setSelectedManufacturerName("");
       setSelectedManufacturerId("");
-      setSelectedModelName("");
-      setSelectedFuelTypeName("");
+      form.reset();
+      setResetKey(prev => prev + 1);
     } else if (res === false) {
       form.setError("vehicleIdNumber", {
         type: "custom",
         message: "Vozilo se nalazi u bazi",
       });
     }
+  };
+
+  /**
+   * Validates the form fields and sets appropriate error messages
+   * @param values - The form values to check
+   * @returns boolean indicating whether all fields are valid
+   */
+  const checkFields = async (
+    values: z.infer<typeof formSchema>,
+  ): Promise<boolean> => {
+    if (!values.customerId || values.customerId === "") {
+      form.setError("customerId", {
+        type: "custom",
+        message: "Musterija je obavezna",
+      });
+    }
+
+    if (
+      !values.vehicleDateManufactured ||
+      values.vehicleDateManufactured === ""
+    ) {
+      form.setError("vehicleDateManufactured", {
+        type: "custom",
+        message: "Godina proizvodnje je obavezna",
+      });
+    }
+
+    if (!values.vehicleDisplacement || values.vehicleDisplacement === "") {
+      form.setError("vehicleDisplacement", {
+        type: "custom",
+        message: "Zapremina motora je obavezna",
+      });
+    }
+
+    if (!values.vehiclePower || values.vehiclePower === "") {
+      form.setError("vehiclePower", {
+        type: "custom",
+        message: "Snaga motora je obavezna",
+      });
+    }
+
+    if (!values.vehicleMilage || values.vehicleMilage === "") {
+      form.setError("vehicleMilage", {
+        type: "custom",
+        message: "Kilometraža je obavezna",
+      });
+    }
+
+    if (!values.vehicleIdNumber || values.vehicleIdNumber === "") {
+      form.setError("vehicleIdNumber", {
+        type: "custom",
+        message: "Broj sasije je obavezan",
+      });
+    }
+
+    if (!values.vehiclePlateNumber || values.vehiclePlateNumber === "") {
+      form.setError("vehiclePlateNumber", {
+        type: "custom",
+        message: "Broj registracije je obavezan",
+      });
+    }
+
+    if (!values.vehicleManufacturer || values.vehicleManufacturer === "") {
+      form.setError("vehicleManufacturer", {
+        type: "custom",
+        message: "Proizvođač je obavezan",
+      });
+    }
+
+    if (!values.vehicleModel || values.vehicleModel === "") {
+      form.setError("vehicleModel", {
+        type: "custom",
+        message: "Model je obavezan",
+      });
+    }
+
+    if (!values.vehicleFuelType || values.vehicleFuelType === "") {
+      form.setError("vehicleFuelType", {
+        type: "custom",
+        message: "Tip goriva je obavezan",
+      });
+    }
+
+    // Check if any validation errors exist
+    let isValid = false;
+    if (
+      form.formState.defaultValues?.customerId !== undefined &&
+      form.formState.defaultValues?.customerId !== "" &&
+      form.formState.defaultValues?.vehicleDateManufactured !== undefined &&
+      form.formState.defaultValues?.vehicleDateManufactured !== "" &&
+      form.formState.defaultValues?.vehicleDisplacement !== undefined &&
+      form.formState.defaultValues?.vehicleDisplacement !== "" &&
+      form.formState.defaultValues?.vehicleFuelType !== undefined &&
+      form.formState.defaultValues?.vehicleFuelType !== "" &&
+      form.formState.defaultValues?.vehicleMilage !== undefined &&
+      form.formState.defaultValues?.vehicleMilage !== "" &&
+      form.formState.defaultValues?.vehicleIdNumber !== undefined &&
+      form.formState.defaultValues?.vehicleIdNumber !== "" &&
+      form.formState.defaultValues?.vehicleManufacturer !== undefined &&
+      form.formState.defaultValues?.vehicleManufacturer !== "" &&
+      form.formState.defaultValues?.vehicleModel !== undefined &&
+      form.formState.defaultValues?.vehicleModel !== "" &&
+      form.formState.defaultValues?.vehiclePlateNumber !== undefined &&
+      form.formState.defaultValues?.vehiclePlateNumber !== "" &&
+      form.formState.defaultValues?.vehiclePower !== undefined &&
+      form.formState.defaultValues?.vehiclePower !== ""
+    )
+      isValid = true;
+
+    return isValid;
   };
 
   return (
@@ -154,39 +224,42 @@ const VehicleAddForm = () => {
       >
         {/* MANUFACTURER */}
         <ManufacturerSelect
+          key={`manufacturer-${resetKey}`}
           control={form.control}
           name="vehicleManufacturer"
           onChange={(manufacturerId, manufacturerName) => {
             setSelectedManufacturerId(manufacturerId);
-            setSelectedManufacturerName(manufacturerName);
           }}
         />
 
         {/* MODEL */}
         <VehicleModelSelect
+          key={`model-${resetKey}`}
           control={form.control}
           name="vehicleModel"
           manufacturerId={selectedManufacturerId}
-          onChange={(modelId, modelName) => {
-            setSelectedModelName(modelName);
+          onChange={() => {
+            // No need to track model name if not used
           }}
         />
 
         {/* FUEL TYPE */}
         <FuelTypeSelect
+          key={`fuel-${resetKey}`}
           control={form.control}
           name="vehicleFuelType"
-          onChange={(fuelTypeId, fuelTypeName) => {
-            setSelectedFuelTypeName(fuelTypeName);
+          onChange={() => {
+            // No need to track fuel type name if not used
           }}
         />
 
         {/* VEHICLE OWNER, CUSTOMER */}
         <CustomerSelect
+          key={`customer-${resetKey}`}
           control={form.control}
           name="customerId"
-          onChange={(customerId, customerName) => {
-            setSelectedFuelTypeName(customerName);
+          onChange={() => {
+            // No need to track customer name if not used
           }}
         />
 
