@@ -246,9 +246,6 @@ const VehicleAddForm = () => {
           key={`fuel-${resetKey}`}
           control={form.control}
           name="vehicleFuelType"
-          onChange={() => {
-            // No need to track fuel type name if not used
-          }}
         />
 
         {/* VEHICLE OWNER, CUSTOMER */}
