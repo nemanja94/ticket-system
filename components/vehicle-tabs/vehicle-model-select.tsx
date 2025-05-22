@@ -71,7 +71,7 @@ const VehicleModelSelect = ({
                 defaultValue={field.value}
                 disabled={!manufacturerId || manufacturerId === ""}
               >
-                <SelectTrigger className="w-[14rem]">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Model" />
                 </SelectTrigger>
                 <SelectContent>

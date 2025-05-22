@@ -13,16 +13,15 @@ import {
 } from "firebase/firestore";
 
 export const addVehicle = async (
-  vehicle: Vehicle,
+  vehicle: Vehicle
 ): Promise<string | boolean> => {
-  console.log("CALLED");
   const existingVehicle = await searchVehicle(
     vehicle.customerId,
     vehicle.vehicleIdNumber,
     vehicle.vehiclePlateNumber,
     vehicle.vehicleManufacturer,
     vehicle.vehicleModel,
-    vehicle.vehicleFuelType,
+    vehicle.vehicleFuelType
   );
   if (existingVehicle.vehicles.length > 0) return false;
 
@@ -49,7 +48,7 @@ export const searchVehicle = async (
   _vehiclePlateNumber?: string,
   _vehicleManufacturer?: string,
   _vehicleModel?: string,
-  _vehicleFuelType?: string,
+  _vehicleFuelType?: string
 ): Promise<{
   vehicles: Vehicle[];
 }> => {
@@ -76,8 +75,9 @@ export const searchVehicle = async (
   let firstBatch = query(
     collection(db, "vehicles"),
     orderBy("vehicleDateCreated", "desc"),
-    ...constraints,
+    ...constraints
   );
+
 
   const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
     await getDocs(firstBatch);
@@ -103,8 +103,8 @@ export const searchVehicle = async (
           data.vehicleFuelType,
           data.vehicleDateCreated,
           data.vehicleDateUpdated,
-          doc.id,
-        ),
+          doc.id
+        )
       );
     }
   });

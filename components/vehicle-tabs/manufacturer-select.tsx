@@ -50,7 +50,7 @@ const ManufacturerSelect = ({
               }}
               defaultValue={field.value}
             >
-              <SelectTrigger className="w-[14rem]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Proizvodjac" />
               </SelectTrigger>
               <SelectContent>

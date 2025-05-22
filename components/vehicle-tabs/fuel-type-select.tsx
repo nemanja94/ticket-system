@@ -54,7 +54,7 @@ const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => {
                 }}
                 defaultValue={field.value}
               >
-                <SelectTrigger className="w-[14rem]">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Gorivo" />
                 </SelectTrigger>
                 <SelectContent>
@@ -62,7 +62,7 @@ const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => {
                     fuelTypes.map((fuelType) => (
                       <SelectItem
                         key={fuelType.fuelTypeId}
-                        value={fuelType.fuelTypeId!}
+                        value={fuelType.fuelTypeName!}
                       >
                         {fuelType.fuelTypeName}
                       </SelectItem>

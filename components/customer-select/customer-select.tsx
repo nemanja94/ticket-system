@@ -68,7 +68,7 @@ export function CustomerSelect({
               }}
               defaultValue={field.value}
             >
-              <SelectTrigger className="w-[14rem]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Musterije" />
               </SelectTrigger>
               <SelectContent>
