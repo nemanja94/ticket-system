@@ -40,6 +40,7 @@ const formSchema = z.object({
 const VehicleAddForm = () => {
   const [selectedManufacturerId, setSelectedManufacturerId] =
     useState<string>("");
+    useState<string>("");
   const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -220,7 +221,7 @@ const VehicleAddForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center w-full space-y-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto"
       >
         {/* MANUFACTURER */}
         <ManufacturerSelect
@@ -238,9 +239,6 @@ const VehicleAddForm = () => {
           control={form.control}
           name="vehicleModel"
           manufacturerId={selectedManufacturerId}
-          onChange={() => {
-            // No need to track model name if not used
-          }}
         />
 
         {/* FUEL TYPE */}
@@ -287,6 +285,21 @@ const VehicleAddForm = () => {
               <FormLabel>Zapremina</FormLabel>
               <FormControl>
                 <Input placeholder="Zapremina" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* VEHICLE POWER */}
+        <FormField
+          control={form.control}
+          name="vehiclePower"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Snaga</FormLabel>
+              <FormControl>
+                <Input placeholder="Snaga" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -353,7 +366,12 @@ const VehicleAddForm = () => {
           )}
         />
 
-        <Button type="submit">Dodaj</Button>
+        {/* Dugme za submit zauzima celu širinu grida na većim ekranima */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end pt-2">
+          <Button type="submit" className="w-full sm:w-auto">
+            Dodaj
+          </Button>
+        </div>
       </form>
     </Form>
   );
