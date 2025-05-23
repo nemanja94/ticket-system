@@ -15,6 +15,7 @@ type Props = {
 };
 
 const CustomerCard = ({ customer }: Props) => {
+  console.log("CustomerCard", customer);
   return (
     <Card className="overflow-hidden border-none h-full">
       <CardHeader
@@ -35,7 +36,12 @@ const CustomerCard = ({ customer }: Props) => {
         <div className="grid gap-2">
           <div>
             <p className="text-zinc-500 text-sm">Kontakt:</p>
-            <p className="font-bold text-lg">{customer.customerNumber}</p>
+            <a
+              href={`tel:${customer.customerNumber}`}
+              className="font-bold text-lg"
+            >
+              {customer.customerNumber}
+            </a>
           </div>
         </div>
       </CardContent>
