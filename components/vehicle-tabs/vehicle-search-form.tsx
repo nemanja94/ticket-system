@@ -76,6 +76,7 @@ const VehicleSearchForm = () => {
           values.vehicleModel,
           values.vehicleFuelType,
           values.vehicleDateManufactured,
+          values.vehicleDisplacement
         );
       } catch (err) {
         console.log(err);
@@ -114,95 +115,95 @@ const VehicleSearchForm = () => {
           <CustomerSelect
             control={form.control}
             name="customerId"
-            onChange={() => {}}
           />
 
-          {/* Expandable fields */}
-          {isExpanded && (
-            <>
-              {/* FUEL TYPE */}
-              <FuelTypeSelect
-                control={form.control}
-                name="vehicleFuelType"
-                onChange={() => {}}
-              />
+          {/* Hidden fields - using CSS but keeping functionality */}
+          <div className={`grid gap-6 col-span-full ${isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'} transition-all duration-300`}>
+            <div className="overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* FUEL TYPE */}
+                <FuelTypeSelect
+                  control={form.control}
+                  name="vehicleFuelType"
+                />
 
-              {/* VEHICLE DATE MANUFACTURED */}
-              <FormField
-                control={form.control}
-                name="vehicleDateManufactured"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Godiste</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Godiste" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* VEHICLE DATE MANUFACTURED */}
+                <FormField
+                  control={form.control}
+                  name="vehicleDateManufactured"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Godiste</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Godiste" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* VEHICLE DISPLACEMENT */}
-              <FormField
-                control={form.control}
-                name="vehicleDisplacement"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Zapremina</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Zapremina" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* VEHICLE DISPLACEMENT */}
+                <FormField
+                  control={form.control}
+                  name="vehicleDisplacement"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zapremina</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Zapremina" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* VEHICLE MILAGE */}
-              <FormField
-                control={form.control}
-                name="vehicleMilage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kilometraza</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Kilometraza" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* VEHICLE MILAGE */}
+                <FormField
+                  control={form.control}
+                  name="vehicleMilage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kilometraza</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Kilometraza" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* VEHICLE ID */}
-              <FormField
-                control={form.control}
-                name="vehicleIdNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Broj sasije</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Broj sasije" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* VEHICLE ID */}
+                <FormField
+                  control={form.control}
+                  name="vehicleIdNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Broj sasije</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Broj sasije" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* VEHICLE PLATE NUMBER */}
-              <FormField
-                control={form.control}
-                name="vehiclePlateNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tablice</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tablice" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
+                {/* VEHICLE PLATE NUMBER */}
+                <FormField
+                  control={form.control}
+                  name="vehiclePlateNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tablice</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Tablice" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Control buttons - Always visible */}
           <div className="md:col-span-2 lg:col-span-3 flex justify-between items-center gap-4">
