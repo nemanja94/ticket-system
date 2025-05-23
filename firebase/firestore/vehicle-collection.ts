@@ -16,13 +16,16 @@ export const addVehicle = async (
   vehicle: Vehicle
 ): Promise<string | boolean> => {
   const existingVehicle = await searchVehicle(
-    vehicle.customerId,
+    "",
     vehicle.vehicleIdNumber,
-    vehicle.vehiclePlateNumber,
+    "",
     vehicle.vehicleManufacturer,
     vehicle.vehicleModel,
-    vehicle.vehicleFuelType
+    "",
+    "",
+    ""
   );
+  console.log("existingVehicle", existingVehicle);
   if (existingVehicle.vehicles.length > 0) return false;
 
   const docRef = await addDoc(collection(db, "vehicles"), {
@@ -49,7 +52,8 @@ export const searchVehicle = async (
   _vehicleManufacturer?: string,
   _vehicleModel?: string,
   _vehicleFuelType?: string,
-  _vehicleDateManufactured?: string
+  _vehicleDateManufactured?: string,
+  _vehicleDisplacement?: string
 ): Promise<{
   vehicles: Vehicle[];
 }> => {
@@ -77,6 +81,9 @@ export const searchVehicle = async (
     constraints.push(
       where("vehicleDateManufactured", "==", _vehicleDateManufactured)
     );
+
+  if (_vehicleDisplacement && _vehicleDisplacement !== "")
+    constraints.push(where("vehicleDisplacement", "==", _vehicleDisplacement));
 
   console.log("constraints", constraints);
 
@@ -114,7 +121,7 @@ export const searchVehicle = async (
           doc.id,
           data.vehicleManufacturer,
           data.vehicleModel,
-          data.vehicleFuelType,
+          data.vehicleFuelType
         )
       );
     }
