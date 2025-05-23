@@ -76,20 +76,20 @@ const CustomerSearchForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-4 p-3 rounded justify-center items-center w-[98%] bg-zinc-500 gap-3"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded w-full max-w-6xl mx-auto bg-zinc-500"
         >
           <FormField
             control={form.control}
             name="customerType"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Tip musterije" />
                       </SelectTrigger>
                     </FormControl>
@@ -134,16 +134,16 @@ const CustomerSearchForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-full sm:w-auto justify-self-end">
+            Pretrazi
+          </Button>
         </form>
       </Form>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-5 w-[97%] gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 w-full max-w-6xl mx-auto">
         {customers &&
-          customers.map((customer) => {
-            return (
-              <CustomerCard key={customer.customerId} customer={customer} />
-            );
-          })}
+          customers.map((customer) => (
+            <CustomerCard key={customer.customerId} customer={customer} />
+          ))}
       </div>
     </>
   );
