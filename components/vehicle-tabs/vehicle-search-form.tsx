@@ -91,11 +91,11 @@ const VehicleSearchForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="w-full max-w-6xl mx-auto space-y-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full justify-center items-start"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
         >
           {/* Always visible fields */}
           <ManufacturerSelect
@@ -112,20 +112,18 @@ const VehicleSearchForm = () => {
             manufacturerId={selectedManufacturerId}
           />
 
-          <CustomerSelect
-            control={form.control}
-            name="customerId"
-          />
+          <CustomerSelect control={form.control} name="customerId" />
 
           {/* Hidden fields - using CSS but keeping functionality */}
-          <div className={`grid gap-6 col-span-full ${isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'} transition-all duration-300`}>
+          <div
+            className={`grid gap-6 col-span-full ${
+              isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            } transition-all duration-300`}
+          >
             <div className="overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* FUEL TYPE */}
-                <FuelTypeSelect
-                  control={form.control}
-                  name="vehicleFuelType"
-                />
+                <FuelTypeSelect control={form.control} name="vehicleFuelType" />
 
                 {/* VEHICLE DATE MANUFACTURED */}
                 <FormField
@@ -227,7 +225,7 @@ const VehicleSearchForm = () => {
           </div>
         </form>
       </Form>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-5 w-[95%] gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {vehicles &&
           vehicles.map((vehicle, i) => {
             return <VehicleCard key={i} vehicle={vehicle} />;

@@ -34,7 +34,7 @@ export default function VehicleTabs() {
         value="findVehicle"
         className="flex flex-col mt-6 justify-center items-center"
       >
-        <div className="flex bg-zinc-500 p-6 rounded-lg w-[95%]">
+        <div className="flex p-6 rounded-lg w-[95%]">
           <VehicleSearchForm />
         </div>
       </TabsContent>
