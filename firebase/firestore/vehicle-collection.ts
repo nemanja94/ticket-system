@@ -111,10 +111,10 @@ export const searchVehicle = async (
           data.vehiclePlateNumber,
           data.vehicleDesc,
           data.vehicleDateCreated,
+          doc.id,
           data.vehicleManufacturer,
           data.vehicleModel,
           data.vehicleFuelType,
-          doc.id
         )
       );
     }

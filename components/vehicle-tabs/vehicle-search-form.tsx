@@ -39,11 +39,6 @@ const formSchema = z.object({
 const VehicleSearchForm = () => {
   const [selectedManufacturerId, setSelectedManufacturerId] =
     useState<string>("");
-  const [selectedVehicleModelId, setSelectedVehicleModelId] =
-    useState<string>("");
-  const [selectedFuelTypeId, setSelectedFuelTypeId] = useState<string>("");
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
-
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
