@@ -1,42 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import NavItem from "./NavItem";
 import styles from "./navbar.module.css";
-import { useRouter, usePathname } from "next/navigation";
 
-const navItems = [
-  { text: "Pocetna", href: "/", active: true },
-  { text: "Musterije", href: "/customers", active: false },
-  { text: "Vozila", href: "/vehicles", active: false },
-  { text: "Tiketi", href: "/tickets", active: false },
-];
+type NavItemType = {
+  text: string;
+  href: string;
+};
 
 const Navbar = () => {
-  const pathName = usePathname();
-  const [isClicked, setIsClicked] = useState("");
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setIsClicked(pathName.split(" ")[0]);
-  }, [pathName]);
-
-  const clickHandler: any = (href: string) => {
-    setIsClicked(href);
-  };
+  const navItems = useMemo<readonly NavItemType[]>(
+    () => [
+      { text: "Musterije", href: "/customers" },
+      { text: "Vozila", href: "/vehicles" },
+      { text: "Tiketi", href: "/tickets" },
+    ],
+    []
+  );
 
   return (
-    <nav className={styles.navbar}>
-      {navItems.map((navItem) => {
-        return (
-          <NavItem
-            key={navItem.text}
-            text={navItem.text}
-            href={navItem.href}
-            active={isClicked === navItem.href ? true : false}
-            onClick={() => clickHandler(navItem.href)}
-          />
-        );
-      })}
+    <nav className={`${styles.navbar}`}>
+      {navItems.map((item) => (
+        <NavItem key={item.text} {...item} active={pathname === item.href} />
+      ))}
     </nav>
   );
 };
