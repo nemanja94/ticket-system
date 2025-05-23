@@ -19,7 +19,7 @@ export const ManufacturerModelSchema = z.object({
   manufacturerId: z.string(),
 });
 
-export default function useManufacturerModels(manufacturerId: string) {
+export default function useManufacturerModels(manufacturerName: string) {
   const [manufacturerModels, setManufacturerModels] = useState<
     ManufacturerModel[]
   >([]);
@@ -32,7 +32,7 @@ export default function useManufacturerModels(manufacturerId: string) {
     setIsLoadingManufacturerModels(true);
 
     // Early return if manufacturerId is empty
-    if (!manufacturerId) {
+    if (!manufacturerName) {
       setIsLoadingManufacturerModels(false);
       setManufacturerModels([]);
       return () => {};
@@ -41,7 +41,7 @@ export default function useManufacturerModels(manufacturerId: string) {
     try {
       let q = query(
         collection(db, "vehicleModels"),
-        where("vehicleManufacturererId", "==", manufacturerId),
+        where("vehicleManufacturererName", "==", manufacturerName),
         orderBy("modelName", "asc"),
       );
 
@@ -80,7 +80,7 @@ export default function useManufacturerModels(manufacturerId: string) {
       setIsLoadingManufacturerModels(false);
       return () => {};
     }
-  }, [manufacturerId]);
+  }, [manufacturerName]);
 
   return {
     manufacturerModels,

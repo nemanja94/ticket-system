@@ -28,21 +28,21 @@ interface VehicleModelSelectProps {
 const VehicleModelSelect = ({
   control,
   name,
-  manufacturerId,
+  manufacturerId: manufacturerName,
   onChange,
 }: VehicleModelSelectProps) => {
   const {
     manufacturerModels,
     isLoadingManufacturerModels,
     manufacturerModelsError,
-  } = useManufacturerModels(manufacturerId);
+  } = useManufacturerModels(manufacturerName);
 
   const [selectedModelName, setSelectedModelName] = useState<string>("");
 
   // Reset selected model when manufacturer changes
   useEffect(() => {
     setSelectedModelName("");
-  }, [manufacturerId]);
+  }, [manufacturerName]);
 
   return (
     <>
@@ -69,7 +69,7 @@ const VehicleModelSelect = ({
                   }
                 }}
                 defaultValue={field.value}
-                disabled={!manufacturerId || manufacturerId === ""}
+                disabled={!manufacturerName || manufacturerName === ""}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Model" />
@@ -88,7 +88,7 @@ const VehicleModelSelect = ({
                     <SelectItem value="no-models" disabled>
                       {isLoadingManufacturerModels
                         ? "Loading models..."
-                        : manufacturerId
+                        : manufacturerName
                           ? "No models available"
                           : "Select a manufacturer first"}
                     </SelectItem>

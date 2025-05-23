@@ -38,7 +38,7 @@ const formSchema = z.object({
 });
 
 const VehicleAddForm = () => {
-  const [selectedManufacturerId, setSelectedManufacturerId] =
+  const [selectedManufacturerName, setSelectedManufacturerName] =
     useState<string>("");
     useState<string>("");
   const [resetKey, setResetKey] = useState<number>(0);
@@ -96,7 +96,7 @@ const VehicleAddForm = () => {
     const res = await addVehicle(vehicle);
 
     if (typeof res == "string") {
-      setSelectedManufacturerId("");
+      setSelectedManufacturerName("");
       form.reset();
       setResetKey(prev => prev + 1);
     } else if (res === false) {
@@ -229,7 +229,7 @@ const VehicleAddForm = () => {
           control={form.control}
           name="vehicleManufacturer"
           onChange={(manufacturerId, manufacturerName) => {
-            setSelectedManufacturerId(manufacturerId);
+            setSelectedManufacturerName(manufacturerName);
           }}
         />
 
@@ -238,7 +238,7 @@ const VehicleAddForm = () => {
           key={`model-${resetKey}`}
           control={form.control}
           name="vehicleModel"
-          manufacturerId={selectedManufacturerId}
+          manufacturerId={selectedManufacturerName}
         />
 
         {/* FUEL TYPE */}

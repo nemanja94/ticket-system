@@ -42,7 +42,7 @@ const ManufacturerSelect = ({
               onValueChange={(value) => {
                 field.onChange(value);
                 const selectedManufacturer = manufacturers.find(
-                  (m) => m.manufacturerId === value,
+                  (m) => m.manufacturerName === value,
                 );
                 if (selectedManufacturer && onChange) {
                   onChange(value, selectedManufacturer.manufacturerName);
@@ -57,7 +57,7 @@ const ManufacturerSelect = ({
                 {manufacturers.map((manufacturer) => (
                   <SelectItem
                     key={manufacturer.manufacturerId}
-                    value={manufacturer.manufacturerId!}
+                    value={manufacturer.manufacturerName!}
                   >
                     {manufacturer.manufacturerName}
                   </SelectItem>
