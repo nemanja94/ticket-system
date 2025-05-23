@@ -79,7 +79,7 @@ const VehicleModelSelect = ({
                     manufacturerModels.map((model) => (
                       <SelectItem
                         key={model.manufacturerModelId}
-                        value={model.manufacturerModelId!}
+                        value={model.manufacturerModelName!}
                       >
                         {model.manufacturerModelName}
                       </SelectItem>
