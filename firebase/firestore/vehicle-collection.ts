@@ -78,7 +78,6 @@ export const searchVehicle = async (
     ...constraints
   );
 
-
   const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
     await getDocs(firstBatch);
 
@@ -96,13 +95,17 @@ export const searchVehicle = async (
       vehiclesColl.push(
         new Vehicle(
           data.customerId,
+          data.vehicleDateManufactured,
+          data.vehicleDisplacement,
+          data.vehiclePower,
+          data.vehicleMilage,
           data.vehicleIdNumber,
           data.vehiclePlateNumber,
+          data.vehicleDesc,
+          data.vehicleDateCreated,
           data.vehicleManufacturer,
           data.vehicleModel,
           data.vehicleFuelType,
-          data.vehicleDateCreated,
-          data.vehicleDateUpdated,
           doc.id
         )
       );
