@@ -39,7 +39,8 @@ const formSchema = z.object({
 const VehicleSearchForm = () => {
   const [selectedManufacturerId, setSelectedManufacturerId] =
     useState<string>("");
-  const [selectedVehicleModelId, setSelectedVehicleModelId] = useState<string>("");
+  const [selectedVehicleModelId, setSelectedVehicleModelId] =
+    useState<string>("");
   const [selectedFuelTypeId, setSelectedFuelTypeId] = useState<string>("");
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
 
@@ -68,10 +69,17 @@ const VehicleSearchForm = () => {
   }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
     const fetchVehicles = async () => {
       try {
-        return await searchVehicle();
+        return await searchVehicle(
+          values.customerId,
+          values.vehicleIdNumber,
+          values.vehiclePlateNumber,
+          values.vehicleManufacturer,
+          values.vehicleModel,
+          values.vehicleFuelType,
+          values.vehicleDateManufactured,
+        );
       } catch (err) {
         console.log(err);
         return { vehicles: [], last: undefined };
@@ -205,9 +213,7 @@ const VehicleSearchForm = () => {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-5 w-[95%] gap-3">
         {vehicles &&
           vehicles.map((vehicle, i) => {
-            return (
-              <VehicleCard key={i} vehicle={vehicle} />
-            );
+            return <VehicleCard key={i} vehicle={vehicle} />;
           })}
       </div>
     </div>

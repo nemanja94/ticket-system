@@ -48,7 +48,8 @@ export const searchVehicle = async (
   _vehiclePlateNumber?: string,
   _vehicleManufacturer?: string,
   _vehicleModel?: string,
-  _vehicleFuelType?: string
+  _vehicleFuelType?: string,
+  _vehicleDateManufactured?: string
 ): Promise<{
   vehicles: Vehicle[];
 }> => {
@@ -71,6 +72,13 @@ export const searchVehicle = async (
 
   if (_vehicleFuelType && _vehicleFuelType !== "")
     constraints.push(where("vehicleFuelType", "==", _vehicleFuelType));
+
+  if (_vehicleDateManufactured && _vehicleDateManufactured !== "")
+    constraints.push(
+      where("vehicleDateManufactured", "==", _vehicleDateManufactured)
+    );
+
+  console.log("constraints", constraints);
 
   let firstBatch = query(
     collection(db, "vehicles"),
