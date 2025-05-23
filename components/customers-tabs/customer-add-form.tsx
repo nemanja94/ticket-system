@@ -94,79 +94,96 @@ const CustomerAddForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center w-full space-y-8"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto p-4"
       >
-        <FormField
-          control={form.control}
-          name="customerType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tip musterije</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-[14rem]">
-                    <SelectValue placeholder="Tip musterije" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={CUSTOMER_TYPE.StandardCustomer}>
-                      {CUSTOMER_TYPE.StandardCustomer}
-                    </SelectItem>
-                    <SelectItem value={CUSTOMER_TYPE.PremiumCustomer}>
-                      {CUSTOMER_TYPE.PremiumCustomer}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Customer Type - Full width on all screens */}
+        <div className="col-span-full">
+          <FormField
+            control={form.control}
+            name="customerType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tip mušterije</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Izaberite tip mušterije" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={CUSTOMER_TYPE.StandardCustomer}>
+                        {CUSTOMER_TYPE.StandardCustomer}
+                      </SelectItem>
+                      <SelectItem value={CUSTOMER_TYPE.PremiumCustomer}>
+                        {CUSTOMER_TYPE.PremiumCustomer}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* First Name */}
         <FormField
           control={form.control}
           name="customerFirstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ime musterije</FormLabel>
+              <FormLabel>Ime</FormLabel>
               <FormControl>
-                <Input placeholder="Ime musterije" {...field} />
+                <Input placeholder="Unesite ime" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {/* Last Name */}
         <FormField
           control={form.control}
           name="customerLastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Prezime musterije</FormLabel>
+              <FormLabel>Prezime</FormLabel>
               <FormControl>
-                <Input placeholder="Prezime musterije" {...field} />
+                <Input placeholder="Unesite prezime" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="customerNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Broj musterije</FormLabel>
-              <FormControl>
-                <Input placeholder="Broj musterije" {...field} />
-              </FormControl>
-              <FormDescription className="text-zinc-50">
-                Broj pocinje sa +38169...
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+
+        {/* Phone Number - Full width on all screens */}
+        <div className="col-span-full">
+          <FormField
+            control={form.control}
+            name="customerNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Broj telefona</FormLabel>
+                <FormControl>
+                  <Input placeholder="+381 6x xxx xxxx" {...field} />
+                </FormControl>
+                <FormDescription className="text-sm text-muted-foreground">
+                  Broj telefona u formatu: +381 6x xxx xxxx
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* Submit Button - Full width on mobile, auto width on larger screens */}
+        <div className="col-span-full flex justify-end mt-6">
+          <Button type="submit" className="w-full sm:w-auto">
+            Dodaj mušteriju
+          </Button>
+        </div>
       </form>
     </Form>
   );

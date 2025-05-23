@@ -6,16 +6,32 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Pencil, Trash2 } from "lucide-react";
 
 import "./customerCard.css";
 import { Customer, CUSTOMER_TYPE } from "@/Entities/Customer.model";
+import { deleteCustomer } from "@/firebase/firestore/customer-collection";
 
 type Props = {
   customer: Customer;
 };
 
 const CustomerCard = ({ customer }: Props) => {
-  console.log("CustomerCard", customer);
+  const handleEdit = () => {
+    // TODO: Implement edit functionality
+    console.log("Edit customer:", customer);
+  };
+
+  const handleDelete = async () => {
+    try {
+      // await deleteCustomer(customer.customerId!);
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+    }
+    console.log("Delete customer:", customer);
+  };
+
   return (
     <Card className="overflow-hidden border-none h-full">
       <CardHeader
@@ -42,6 +58,24 @@ const CustomerCard = ({ customer }: Props) => {
             >
               {customer.customerNumber}
             </a>
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleEdit}
+              className="flex gap-2 items-center"
+            >
+              <Pencil className="h-4 w-4" /> Izmeni
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleDelete}
+              className="flex gap-2 items-center"
+            >
+              <Trash2 className="h-4 w-4" /> Obriši
+            </Button>
           </div>
         </div>
       </CardContent>

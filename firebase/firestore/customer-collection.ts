@@ -3,6 +3,8 @@ import { db } from "@/config/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   DocumentData,
   getDocs,
   limit,
@@ -263,4 +265,9 @@ export const searchCustomer = async (
   });
 
   return { customers: customersColl };
+};
+
+export const deleteCustomer = async (customerId: string) => {
+  console.log("Deleting customer with ID:", customerId);
+  await deleteDoc(doc(db, "customers", customerId));
 };

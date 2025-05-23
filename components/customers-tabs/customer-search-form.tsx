@@ -6,6 +6,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -72,37 +73,32 @@ const CustomerSearchForm = () => {
     });
   };
   return (
-    <>
+    <div className="w-full max-w-6xl mx-auto space-y-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded w-full max-w-6xl mx-auto bg-zinc-500"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
         >
           <FormField
             control={form.control}
             name="customerType"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem>
+                <FormLabel>Tip mušterije</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Tip musterije" />
-                      </SelectTrigger>
-                    </FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Tip mušterije" />
+                    </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={CUSTOMER_TYPE.AllCustomerTypes}>
-                        {CUSTOMER_TYPE.AllCustomerTypes}
-                      </SelectItem>
-                      <SelectItem value={CUSTOMER_TYPE.StandardCustomer}>
-                        {CUSTOMER_TYPE.StandardCustomer}
-                      </SelectItem>
-                      <SelectItem value={CUSTOMER_TYPE.PremiumCustomer}>
-                        {CUSTOMER_TYPE.PremiumCustomer}
-                      </SelectItem>
+                      {TYPES.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -110,42 +106,53 @@ const CustomerSearchForm = () => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="customerFirstName"
             render={({ field }) => (
               <FormItem>
-                <FormMessage />
+                <FormLabel>Ime</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ime musterije" {...field} />
+                  <Input placeholder="Pretraži po imenu..." {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="customerPhoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormMessage />
+                <FormLabel>Broj telefona</FormLabel>
                 <FormControl>
-                  <Input placeholder="Broj musterije" {...field} />
+                  <Input placeholder="Pretraži po broju..." {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full sm:w-auto justify-self-end">
-            Pretrazi
-          </Button>
+
+          <div className="col-span-full flex justify-end">
+            <Button
+              type="submit"
+              className="w-full sm:w-auto min-w-[150px]"
+              size="lg"
+            >
+              Pretraži
+            </Button>
+          </div>
         </form>
       </Form>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 w-full max-w-6xl mx-auto">
-        {customers &&
-          customers.map((customer) => (
-            <CustomerCard key={customer.customerId} customer={customer} />
-          ))}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {customers.map((customer) => (
+          <CustomerCard key={customer.customerId} customer={customer} />
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
