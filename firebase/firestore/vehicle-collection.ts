@@ -85,8 +85,6 @@ export const searchVehicle = async (
   if (_vehicleDisplacement && _vehicleDisplacement !== "")
     constraints.push(where("vehicleDisplacement", "==", _vehicleDisplacement));
 
-  console.log("constraints", constraints);
-
   let firstBatch = query(
     collection(db, "vehicles"),
     orderBy("vehicleDateCreated", "desc"),
