@@ -91,13 +91,14 @@ const CustomerAddForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto p-4"
-      >
-        {/* Customer Type - Full width on all screens */}
-        {/* <div className="col-span-full"> */}
+    <div className="w-[98%] max-w-6xl mx-auto space-y-6">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
+        >
+          {/* Customer Type - Full width on all screens */}
+          {/* <div className="col-span-full"> */}
           <FormField
             control={form.control}
             name="customerType"
@@ -157,34 +158,30 @@ const CustomerAddForm = () => {
             )}
           />
 
-
-            <FormField
-              control={form.control}
-              name="customerNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Broj telefona</FormLabel>
-                  <FormControl>
-                    <Input placeholder="+381 6x xxx xxxx" {...field} />
-                  </FormControl>
-                  <FormDescription className="text-sm text-muted-foreground">
-                    Broj telefona u formatu: +381 6x xxx xxxx
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          
-        {/* </div> */}
-
-        {/* Submit Button - Full width on mobile, auto width on larger screens */}
-        <div className="col-span-full flex justify-end mt-6">
-          <Button type="submit" className="w-full sm:w-auto">
-            Dodaj mušteriju
-          </Button>
-        </div>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="customerNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Broj telefona</FormLabel>
+                <FormControl>
+                  <Input placeholder="+381 6x xxx xxxx" {...field} />
+                </FormControl>
+                <FormDescription className="text-sm text-muted-foreground">
+                  Broj telefona u formatu: +381 6x xxx xxxx
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="col-span-full flex justify-end mt-6">
+            <Button type="submit" className="w-full sm:w-auto">
+              Dodaj mušteriju
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 

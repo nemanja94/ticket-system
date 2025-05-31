@@ -39,11 +39,9 @@ export default function VehicleTabs() {
 
       <TabsContent
         value="addVehicle"
-        className="flex flex-col mt-6 justify-center items-center"
+        className="flex flex-col justify-center items-center"
       >
-        <div className="flex bg-zinc-500 p-6 rounded-lg w-[95%]">
-          <VehicleAddForm />
-        </div>
+        <VehicleAddForm />
       </TabsContent>
     </Tabs>
   );

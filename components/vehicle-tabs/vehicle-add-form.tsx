@@ -40,7 +40,7 @@ const formSchema = z.object({
 const VehicleAddForm = () => {
   const [selectedManufacturerName, setSelectedManufacturerName] =
     useState<string>("");
-    useState<string>("");
+  useState<string>("");
   const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -90,7 +90,7 @@ const VehicleAddForm = () => {
       undefined,
       values.vehicleManufacturer,
       values.vehicleModel,
-      values.vehicleFuelType,
+      values.vehicleFuelType
     );
 
     const res = await addVehicle(vehicle);
@@ -98,7 +98,7 @@ const VehicleAddForm = () => {
     if (typeof res == "string") {
       setSelectedManufacturerName("");
       form.reset();
-      setResetKey(prev => prev + 1);
+      setResetKey((prev) => prev + 1);
     } else if (res === false) {
       form.setError("vehicleIdNumber", {
         type: "custom",
@@ -113,7 +113,7 @@ const VehicleAddForm = () => {
    * @returns boolean indicating whether all fields are valid
    */
   const checkFields = async (
-    values: z.infer<typeof formSchema>,
+    values: z.infer<typeof formSchema>
   ): Promise<boolean> => {
     if (!values.customerId || values.customerId === "") {
       form.setError("customerId", {
@@ -218,159 +218,161 @@ const VehicleAddForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto"
-      >
-        {/* MANUFACTURER */}
-        <ManufacturerSelect
-          key={`manufacturer-${resetKey}`}
-          control={form.control}
-          name="vehicleManufacturer"
-          onChange={(manufacturerId, manufacturerName) => {
-            setSelectedManufacturerName(manufacturerName);
-          }}
-        />
+    <div className="w-[98%] max-w-6xl mx-auto space-y-6">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
+        >
+          {/* MANUFACTURER */}
+          <ManufacturerSelect
+            key={`manufacturer-${resetKey}`}
+            control={form.control}
+            name="vehicleManufacturer"
+            onChange={(manufacturerId, manufacturerName) => {
+              setSelectedManufacturerName(manufacturerName);
+            }}
+          />
 
-        {/* MODEL */}
-        <VehicleModelSelect
-          key={`model-${resetKey}`}
-          control={form.control}
-          name="vehicleModel"
-          manufacturerId={selectedManufacturerName}
-        />
+          {/* MODEL */}
+          <VehicleModelSelect
+            key={`model-${resetKey}`}
+            control={form.control}
+            name="vehicleModel"
+            manufacturerId={selectedManufacturerName}
+          />
 
-        {/* FUEL TYPE */}
-        <FuelTypeSelect
-          key={`fuel-${resetKey}`}
-          control={form.control}
-          name="vehicleFuelType"
-        />
+          {/* FUEL TYPE */}
+          <FuelTypeSelect
+            key={`fuel-${resetKey}`}
+            control={form.control}
+            name="vehicleFuelType"
+          />
 
-        {/* VEHICLE OWNER, CUSTOMER */}
-        <CustomerSelect
-          key={`customer-${resetKey}`}
-          control={form.control}
-          name="customerId"
-          onChange={() => {
-            // No need to track customer name if not used
-          }}
-        />
+          {/* VEHICLE OWNER, CUSTOMER */}
+          <CustomerSelect
+            key={`customer-${resetKey}`}
+            control={form.control}
+            name="customerId"
+            onChange={() => {
+              // No need to track customer name if not used
+            }}
+          />
 
-        {/* VEHICLE DATE MANUFACTURED */}
-        <FormField
-          control={form.control}
-          name="vehicleDateManufactured"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Godiste</FormLabel>
-              <FormControl>
-                <Input placeholder="Godiste" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE DATE MANUFACTURED */}
+          <FormField
+            control={form.control}
+            name="vehicleDateManufactured"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Godiste</FormLabel>
+                <FormControl>
+                  <Input placeholder="Godiste" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE DISPLACEMENT */}
-        <FormField
-          control={form.control}
-          name="vehicleDisplacement"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Zapremina</FormLabel>
-              <FormControl>
-                <Input placeholder="Zapremina" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE DISPLACEMENT */}
+          <FormField
+            control={form.control}
+            name="vehicleDisplacement"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Zapremina</FormLabel>
+                <FormControl>
+                  <Input placeholder="Zapremina" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE POWER */}
-        <FormField
-          control={form.control}
-          name="vehiclePower"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Snaga</FormLabel>
-              <FormControl>
-                <Input placeholder="Snaga" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE POWER */}
+          <FormField
+            control={form.control}
+            name="vehiclePower"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Snaga</FormLabel>
+                <FormControl>
+                  <Input placeholder="Snaga" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE MILAGE */}
-        <FormField
-          control={form.control}
-          name="vehicleMilage"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Kilometraza</FormLabel>
-              <FormControl>
-                <Input placeholder="Kilometraza" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE MILAGE */}
+          <FormField
+            control={form.control}
+            name="vehicleMilage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kilometraza</FormLabel>
+                <FormControl>
+                  <Input placeholder="Kilometraza" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE ID */}
-        <FormField
-          control={form.control}
-          name="vehicleIdNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Broj sasije</FormLabel>
-              <FormControl>
-                <Input placeholder="Broj sasije" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE ID */}
+          <FormField
+            control={form.control}
+            name="vehicleIdNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Broj sasije</FormLabel>
+                <FormControl>
+                  <Input placeholder="Broj sasije" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE PLATE NUMBER */}
-        <FormField
-          control={form.control}
-          name="vehiclePlateNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tablice</FormLabel>
-              <FormControl>
-                <Input placeholder="Tablice" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE PLATE NUMBER */}
+          <FormField
+            control={form.control}
+            name="vehiclePlateNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tablice</FormLabel>
+                <FormControl>
+                  <Input placeholder="Tablice" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* VEHICLE DESC */}
-        <FormField
-          control={form.control}
-          name="vehicleDesc"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Opis</FormLabel>
-              <FormControl>
-                <Input placeholder="Opis" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* VEHICLE DESC */}
+          <FormField
+            control={form.control}
+            name="vehicleDesc"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Opis</FormLabel>
+                <FormControl>
+                  <Input placeholder="Opis" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Dugme za submit zauzima celu širinu grida na većim ekranima */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end pt-2">
-          <Button type="submit" className="w-full sm:w-auto">
-            Dodaj
-          </Button>
-        </div>
-      </form>
-    </Form>
+          {/* Dugme za submit zauzima celu širinu grida na većim ekranima */}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end pt-2">
+            <Button type="submit" className="w-full sm:w-auto">
+              Dodaj
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 
