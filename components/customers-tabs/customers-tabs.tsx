@@ -40,7 +40,7 @@ export default function CustomersTabs() {
         value="addCustomer"
         className="flex flex-col mt-6 justify-center items-center"
       >
-        <div className="flex max-w-lg bg-zinc-500 p-6 rounded-lg min-w-[50%]">
+        <div className="flex bg-zinc-500 p-6 rounded-lg w-[95%]">
           <CustomerAddForm />
         </div>
       </TabsContent>

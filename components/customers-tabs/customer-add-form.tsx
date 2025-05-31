@@ -76,7 +76,7 @@ const CustomerAddForm = () => {
       values.customerFirstName,
       values.customerLastName,
       values.customerNumber,
-      Timestamp.fromDate(values.customerDateCreated),
+      Timestamp.fromDate(values.customerDateCreated)
     );
     const res = await addCustomer(customer);
 
@@ -97,7 +97,7 @@ const CustomerAddForm = () => {
         className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto p-4"
       >
         {/* Customer Type - Full width on all screens */}
-        <div className="col-span-full">
+        {/* <div className="col-span-full"> */}
           <FormField
             control={form.control}
             name="customerType"
@@ -126,57 +126,56 @@ const CustomerAddForm = () => {
               </FormItem>
             )}
           />
-        </div>
 
-        {/* First Name */}
-        <FormField
-          control={form.control}
-          name="customerFirstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Ime</FormLabel>
-              <FormControl>
-                <Input placeholder="Unesite ime" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Last Name */}
-        <FormField
-          control={form.control}
-          name="customerLastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Prezime</FormLabel>
-              <FormControl>
-                <Input placeholder="Unesite prezime" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Phone Number - Full width on all screens */}
-        <div className="col-span-full">
+          {/* First Name */}
           <FormField
             control={form.control}
-            name="customerNumber"
+            name="customerFirstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Broj telefona</FormLabel>
+                <FormLabel>Ime</FormLabel>
                 <FormControl>
-                  <Input placeholder="+381 6x xxx xxxx" {...field} />
+                  <Input placeholder="Unesite ime" {...field} />
                 </FormControl>
-                <FormDescription className="text-sm text-muted-foreground">
-                  Broj telefona u formatu: +381 6x xxx xxxx
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
+
+          {/* Last Name */}
+          <FormField
+            control={form.control}
+            name="customerLastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Prezime</FormLabel>
+                <FormControl>
+                  <Input placeholder="Unesite prezime" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+
+            <FormField
+              control={form.control}
+              name="customerNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Broj telefona</FormLabel>
+                  <FormControl>
+                    <Input placeholder="+381 6x xxx xxxx" {...field} />
+                  </FormControl>
+                  <FormDescription className="text-sm text-muted-foreground">
+                    Broj telefona u formatu: +381 6x xxx xxxx
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          
+        {/* </div> */}
 
         {/* Submit Button - Full width on mobile, auto width on larger screens */}
         <div className="col-span-full flex justify-end mt-6">
