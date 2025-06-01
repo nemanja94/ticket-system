@@ -20,31 +20,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Ticket } from "@/Entities/Ticket.model";
+import {
+  Ticket,
+  TicketPriority,
+  TICKET_PRIORITY_TYPES,
+} from "@/Entities/Ticket.model";
 import { searchTicket } from "@/firebase/firestore/ticket-collection";
+import TicketCard from "../ticket-card/ticket-card.component";
 
-const formSchema = z.object({});
+const formSchema = z.object({
+  ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
+});
 
 const TicketSearchForm = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // TODO implement default values
+      // ticketPriority: TicketPriority.NizakPrioritet,
     },
   });
 
-  useEffect(() => {
-    setTickets([]);
-  }, [setTickets]);
+  // useEffect(() => {
+  //   setTickets([]);
+  // }, []);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchTickets = async () => {
       try {
-        return await searchTicket();
-        // TODO implement searchTicket function
+        return await searchTicket(values.ticketPriority);
       } catch (err) {
         console.log(err);
-        return { tickets: [] };
+        return { tickets: [], last: undefined };
       }
     };
 
@@ -52,27 +60,45 @@ const TicketSearchForm = () => {
       res.tickets.length > 0 ? setTickets(res.tickets) : setTickets([]);
     });
   };
+
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-6">
+    <div className="w-[98%] max-w-6xl mx-auto space-y-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
         >
-          {/* TODO implementirati polja za pretragu tiketa pouzoru na kod ispod*/}
-          {/* <FormField
+          <FormField
             control={form.control}
-            name="customerFirstName"
+            name="ticketPriority"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ime</FormLabel>
+                <FormLabel>Prioritet tiketa</FormLabel>
                 <FormControl>
-                  <Input placeholder="Pretraži po imenu..." {...field} />
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Izaberite prioritet tiketa" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={TicketPriority.NizakPrioritet}>
+                        {TicketPriority.NizakPrioritet}
+                      </SelectItem>
+                      <SelectItem value={TicketPriority.SrednjiPrioritet}>
+                        {TicketPriority.SrednjiPrioritet}
+                      </SelectItem>
+                      <SelectItem value={TicketPriority.VisokPrioritet}>
+                        {TicketPriority.VisokPrioritet}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
 
           <div className="col-span-full flex justify-end">
             <Button
@@ -86,12 +112,11 @@ const TicketSearchForm = () => {
         </form>
       </Form>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {tickets.map((ticket) => (
-          // TODO implement TicketCard component
-          // <TicketCard key={ticket.ticketId} ticket={ticket} />
-          <></>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-[98%] justify-center items-center mx-auto">
+        {tickets &&
+          tickets.map((ticket) => (
+            <TicketCard key={ticket.ticketId} ticket={ticket} />
+          ))}
       </div>
     </div>
   );

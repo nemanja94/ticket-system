@@ -25,7 +25,6 @@ export const addVehicle = async (
     "",
     ""
   );
-  console.log("existingVehicle", existingVehicle);
   if (existingVehicle.vehicles.length > 0) return false;
 
   const docRef = await addDoc(collection(db, "vehicles"), {

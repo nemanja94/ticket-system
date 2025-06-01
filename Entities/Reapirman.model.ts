@@ -7,7 +7,7 @@ export enum RepairmanPositons {
 
 export class Repairman {
   constructor(
-    repairmanId: number,
+    repairmanId: string,
     repairmanFirstName: string,
     repairmanLastName: string,
     repairmanPosition: RepairmanPositons,
@@ -24,7 +24,7 @@ export class Repairman {
     this.repairmanDateDeleted = repairmanDateDeleted;
   }
 
-  private repairmanId: number;
+  private repairmanId: string;
   private repairmanFirstName: string;
   private repairmanLastName: string;
   private repairmanPosition: RepairmanPositons;

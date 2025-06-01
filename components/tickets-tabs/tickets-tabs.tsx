@@ -1,4 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import TicketAddForm from "./ticket-add-form";
+import TicketSearchForm from "./ticket-search-form";
 
 const enum TAB_TYPE {
   FIND_TICKET = "findTicket",
@@ -8,7 +10,6 @@ const enum TAB_TYPE {
 export default function TicketsTabs() {
   return (
     <Tabs defaultValue={TAB_TYPE.FIND_TICKET} className="flex w-[95%] flex-col">
-      {/* Tabs */}
       <TabsList className="bg-zinc-900/60">
         <TabsTrigger
           className="text-slate-200 w-full"
@@ -24,20 +25,17 @@ export default function TicketsTabs() {
         </TabsTrigger>
       </TabsList>
 
-      {/* Tabs content */}
       <TabsContent
         value="findTicket"
         className="flex flex-col mt-6 justify-center items-center"
       >
-        {/* <CustomerSearchForm /> */}
+        <TicketSearchForm />
       </TabsContent>
       <TabsContent
         value="addTicket"
-        className="flex flex-col mt-6 justify-center items-center"
+        className="flex flex-col justify-center items-center"
       >
-        <div className="flex max-w-lg bg-zinc-500 p-6 rounded-lg min-w-[50%]">
-          {/* <CustomerAddForm /> */}
-        </div>
+        <TicketAddForm />
       </TabsContent>
     </Tabs>
   );
