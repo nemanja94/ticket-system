@@ -85,7 +85,6 @@ const VehicleSearchForm = () => {
     };
 
     fetchVehicles().then((res) => {
-      // console.log(res)
       res.vehicles.length > 0 ? setVehicles(res.vehicles) : setVehicles([]);
     });
   };
