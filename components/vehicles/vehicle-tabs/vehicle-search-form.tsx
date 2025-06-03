@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import ManufacturerSelect from "./manufacturer-select";
 import VehicleModelSelect from "./vehicle-model-select";
 import FuelTypeSelect from "./fuel-type-select";
-import { CustomerSelect } from "../customer-select/customer-select";
+import { CustomerSelect } from "../../customers/customers-tabs/customer-select";
 import { Vehicle } from "@/Entities/Vehicle.model";
 import { searchVehicle } from "@/firebase/firestore/vehicle-collection";
 import VehicleCard from "../vehicle-card/vehicle-card.component";

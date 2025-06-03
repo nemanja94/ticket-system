@@ -13,14 +13,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import { addVehicle } from "@/firebase/firestore/vehicle-collection";
 
 import { useState } from "react";
 import ManufacturerSelect from "./manufacturer-select";
 import VehicleModelSelect from "./vehicle-model-select";
 import FuelTypeSelect from "./fuel-type-select";
-import { CustomerSelect } from "../customer-select/customer-select";
+import { CustomerSelect } from "../../customers/customers-tabs/customer-select";
 
 const formSchema = z.object({
   customerId: z.string(),

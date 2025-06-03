@@ -3,7 +3,18 @@ import { Timestamp } from "firebase/firestore";
 export enum RepairmanPositons {
   Majstor = "Majstor",
   GlavniMajstor = "Glavni majstor",
+  PomocniMajstor = "Pomocni majstor",
 }
+
+export const REPAIRMAN_POSITIONS_TYPES: readonly [
+  RepairmanPositons.Majstor,
+  RepairmanPositons.GlavniMajstor,
+  RepairmanPositons.PomocniMajstor,
+] = [
+  RepairmanPositons.Majstor,
+  RepairmanPositons.GlavniMajstor,
+  RepairmanPositons.PomocniMajstor,
+];
 
 export class Repairman {
   constructor(
@@ -13,7 +24,7 @@ export class Repairman {
     repairmanPosition: RepairmanPositons,
     repairmanDateCreated: Timestamp | string,
     repairmanDateUpdated?: Timestamp,
-    repairmanDateDeleted?: Timestamp
+    repairmanDateDeleted?: Timestamp,
   ) {
     this.repairmanId = repairmanId;
     this.repairmanFirstName = repairmanFirstName;

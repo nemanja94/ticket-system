@@ -43,9 +43,7 @@ const TicketCard: FunctionComponent<Props> = ({ ticket }) => {
           </div>
           <div>
             <p className="text-zinc-500">Korisnik:</p>
-            <p className="font-medium">
-              {ticket.repairmanFirstName + " " + ticket.repairmanLastName}
-            </p>
+            <p className="font-medium">{ticket.repairmanName}</p>
           </div>
           <div>
             <p className="text-zinc-500">Opis:</p>

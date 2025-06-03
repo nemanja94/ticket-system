@@ -1,4 +1,4 @@
-import CustomersTabs from "@/components/customers-tabs/customers-tabs";
+import CustomersTabs from "@/components/customers/customers-tabs/customers-tabs";
 import "./customersPage.css";
 
 export default function Customers() {

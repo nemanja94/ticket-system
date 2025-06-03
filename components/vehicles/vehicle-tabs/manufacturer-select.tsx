@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useManufacturers from "@/hooks/useManufacturers";
+import useManufacturers from "@/hooks/useManufacturer";
 import { Control } from "react-hook-form";
 
 interface ManufacturerSelectProps {
@@ -42,7 +42,7 @@ const ManufacturerSelect = ({
               onValueChange={(value) => {
                 field.onChange(value);
                 const selectedManufacturer = manufacturers.find(
-                  (m) => m.manufacturerName === value,
+                  (m) => m.manufacturerName === value
                 );
                 if (selectedManufacturer && onChange) {
                   onChange(value, selectedManufacturer.manufacturerName);

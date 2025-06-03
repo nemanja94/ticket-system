@@ -1,5 +1,5 @@
 import { Vehicle } from "@/Entities/Vehicle.model";
-import VehicleTabs from "@/components/vehicle-tabs/vehicle-tabs";
+import VehicleTabs from "@/components/vehicles/vehicle-tabs/vehicle-tabs";
 import { Timestamp } from "firebase/firestore";
 import "./vehiclePage.css";
 

@@ -20,6 +20,7 @@ import {
   Ticket,
   TicketPriority,
   TICKET_PRIORITY_TYPES,
+  TICKET_STATUS_TYPES,
   TicketStatus,
 } from "@/Entities/Ticket.model";
 import { addTicket } from "@/firebase/firestore/ticket-collection";
@@ -27,23 +28,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CustomerSelect } from "../customer-select/customer-select";
+import { CustomerSelect } from "../../customers/customers-tabs/customer-select";
 import { useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 
 const formSchema = z.object({
-  ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
+  repairmanId: z.string(),
+  repairmanName: z.string(),
   customerId: z.string(),
   customerName: z.string(),
-  TicketTitle: z.string(),
+  customerPhoneNumber: z.string(),
+  vehicleId: z.string(),
+  vehicleManufacturer: z.string(),
+  vehicleModel: z.string(),
+  vehicleIdNumber: z.string(),
+  ticketTitle: z.string(),
   ticketDesc: z.string(),
-  ticketPrice: z.number(),
-  ticketDateCreated: z.date(),
+  ticketPrice: z.string(),
+  ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
+  ticketStatus: z.enum(TICKET_STATUS_TYPES),
 });
 
 const TicketAddForm = () => {
   const [customerId, setCustomerId] = useState<string>("");
-  const [customerName, setCustomerName] = useState<string>("");
   const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -60,16 +67,21 @@ const TicketAddForm = () => {
 
     const ticket: Ticket = new Ticket(
       "",
+      values.repairmanId,
+      values.repairmanName,
       values.customerId,
-      customerName.split(" ")[0] || "",
-      customerName.split(" ")[1] || "",
-      "", // vehicleId is not used in this form
-      values.TicketTitle,
+      values.customerName,
+      values.customerPhoneNumber,
+      values.vehicleId,
+      values.vehicleManufacturer,
+      values.vehicleModel,
+      values.vehicleIdNumber,
+      values.ticketTitle,
       values.ticketDesc,
       values.ticketPrice,
       values.ticketPriority,
       TicketStatus.Otvoren, // Default status when adding a new ticket
-      Timestamp.now(),
+      Timestamp.now().toDate().toISOString(), // Current date as string
       undefined, // ticketDateUpdated
       undefined // ticketDateDeleted
     );

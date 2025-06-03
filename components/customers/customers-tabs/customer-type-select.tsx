@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 type CusotmerTypeSelectProps = {
   customerTypeHandler: (e: string) => void;

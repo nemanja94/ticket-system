@@ -56,7 +56,10 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
             <p className="text-zinc-500">Snaga:</p>
             <p className="font-medium">
               {vehicle.vehiclePower}
-              <span className="cursor-pointer ml-1 text-zinc-600" onClick={converterHandler}>
+              <span
+                className="cursor-pointer ml-1 text-zinc-600"
+                onClick={converterHandler}
+              >
                 {uniteType}
               </span>
             </p>

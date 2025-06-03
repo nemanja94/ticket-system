@@ -1,5 +1,5 @@
 // import VehicleAddForm from "./vehicle-add-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import VehicleSearchForm from "./vehicle-search-form";
 import VehiclePaginated from "./vehicle-paginated";
 import VehicleAddForm from "./vehicle-add-form";

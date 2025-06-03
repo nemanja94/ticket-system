@@ -58,7 +58,7 @@ const VehicleModelSelect = ({
                   field.onChange(value);
                   // Find selected model and set its name
                   const selectedModel = manufacturerModels.find(
-                    (m) => m.manufacturerModelId === value,
+                    (m) => m.manufacturerModelId === value
                   );
                   if (selectedModel) {
                     setSelectedModelName(selectedModel.manufacturerModelName);

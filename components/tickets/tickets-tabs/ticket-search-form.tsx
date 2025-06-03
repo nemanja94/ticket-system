@@ -24,12 +24,15 @@ import {
   Ticket,
   TicketPriority,
   TICKET_PRIORITY_TYPES,
+  TicketStatus,
+  TICKET_STATUS_TYPES,
 } from "@/Entities/Ticket.model";
 import { searchTicket } from "@/firebase/firestore/ticket-collection";
 import TicketCard from "../ticket-card/ticket-card.component";
 
 const formSchema = z.object({
   ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
+  ticketStatus: z.enum(TICKET_STATUS_TYPES),
 });
 
 const TicketSearchForm = () => {
@@ -49,7 +52,7 @@ const TicketSearchForm = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchTickets = async () => {
       try {
-        return await searchTicket(values.ticketPriority);
+        return await searchTicket(values.ticketPriority, values.ticketStatus);
       } catch (err) {
         console.log(err);
         return { tickets: [], last: undefined };
@@ -91,6 +94,38 @@ const TicketSearchForm = () => {
                       </SelectItem>
                       <SelectItem value={TicketPriority.VisokPrioritet}>
                         {TicketPriority.VisokPrioritet}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="ticketStatus"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status tiketa</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Izaberite status tiketa" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={TicketStatus.Otvoren}>
+                        {TicketStatus.Otvoren}
+                      </SelectItem>
+                      <SelectItem value={TicketStatus.UProcesu}>
+                        {TicketStatus.UProcesu}
+                      </SelectItem>
+                      <SelectItem value={TicketStatus.Zatvoren}>
+                        {TicketStatus.Zatvoren}
                       </SelectItem>
                     </SelectContent>
                   </Select>

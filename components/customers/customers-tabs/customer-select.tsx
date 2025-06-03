@@ -15,8 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useCustomers from "@/hooks/useCustomers";
-import { Loader2 } from "lucide-react";
+import useCustomers from "@/hooks/useCustomer";
 import { useState } from "react";
 import { Control } from "react-hook-form";
 
@@ -33,7 +32,7 @@ export function CustomerSelect({
 }: CustomerSelectProps) {
   const { customers, isLoadingCustomers, customersError } = useCustomers();
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>(
-    {} as Customer,
+    {} as Customer
   );
 
   return (
@@ -49,7 +48,7 @@ export function CustomerSelect({
                 field.onChange(value);
                 // Find selected customer and set its name
                 const foundCustomer = customers.find(
-                  (sc) => sc.customerId === value,
+                  (sc) => sc.customerId === value
                 );
                 if (foundCustomer) {
                   setSelectedCustomer(foundCustomer);
@@ -61,7 +60,7 @@ export function CustomerSelect({
                         " " +
                         foundCustomer.customerLastName +
                         " " +
-                        foundCustomer.customerNumber,
+                        foundCustomer.customerNumber
                     );
                   }
                 }

@@ -15,7 +15,8 @@ import {
 } from "firebase/firestore";
 
 export const searchTicket = async (
-  _ticketPriority?: string
+  _ticketPriority?: string,
+  _ticketStatus?: string
 ): Promise<{
   tickets: Ticket[];
 }> => {
@@ -23,6 +24,9 @@ export const searchTicket = async (
 
   if (_ticketPriority && _ticketPriority !== "")
     constraints.push(where("ticketPriority", "==", _ticketPriority));
+
+  if (_ticketStatus && _ticketStatus !== "")
+    constraints.push(where("ticketStatus", "==", _ticketStatus));
 
   let firstBatch = query(
     collection(db, "tickets"),
@@ -58,7 +62,10 @@ export const searchTicket = async (
           data.ticketStatus,
           data.ticketDateCreated,
           data.ticketDateUpdated ? data.ticketDateUpdated.seconds : undefined,
-          data.ticketDateDeleted ? data.ticketDateDeleted.seconds : undefined
+          data.ticketDateDeleted ? data.ticketDateDeleted.seconds : undefined,
+          data.customerId,
+          data.customerFirstName,
+          data.customerLastName
         )
       );
     }

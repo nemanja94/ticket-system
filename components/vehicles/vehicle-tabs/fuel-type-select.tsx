@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useFuelTypes from "@/hooks/useFuelTypes";
+import useFuelTypes from "@/hooks/useFuelType";
 import { Control } from "react-hook-form";
 import { useState } from "react";
 
@@ -42,7 +42,7 @@ const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => {
                   field.onChange(value);
                   // Find selected fuel type and set its name
                   const selectedFuelType = fuelTypes.find(
-                    (ft) => ft.fuelTypeId === value,
+                    (ft) => ft.fuelTypeId === value
                   );
                   if (selectedFuelType) {
                     setSelectedFuelTypeName(selectedFuelType.fuelTypeName);

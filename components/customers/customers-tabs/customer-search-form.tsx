@@ -60,7 +60,7 @@ const CustomerSearchForm = () => {
         return await searchCustomer(
           values.customerPhoneNumber,
           values.customerType,
-          values.customerFirstName,
+          values.customerFirstName
         );
       } catch (err) {
         console.log(err);

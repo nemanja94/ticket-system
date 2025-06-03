@@ -38,12 +38,17 @@ export class Ticket {
   constructor(
     ticketId: string,
     repairmanId: Repairman["repairmanId"],
-    repairmanFirstName: Repairman["repairmanFirstName"],
-    repairmanLastName: Repairman["repairmanLastName"],
+    repairmanName: Repairman["repairmanFirstName"],
+    customerId: string,
+    customerName: string,
+    customerPhoneNumber: string,
     vehicleId: Vehicle["vehicleId"],
+    vehicleManufacturer: Vehicle["vehicleManufacturer"],
+    vehicleModel: Vehicle["vehicleModel"],
+    vehicleIdNumber: Vehicle["vehicleIdNumber"],
     ticketTitle: string,
     ticketDesc: string,
-    ticektPrice: number,
+    ticektPrice: string,
     ticketPriority: TicketPriority,
     ticketStatus: TicketStatus,
     ticketDateCreated: Timestamp | string,
@@ -52,9 +57,14 @@ export class Ticket {
   ) {
     this.ticketId = ticketId;
     this.repairmanId = repairmanId;
-    this.repairmanFirstName = repairmanFirstName;
-    this.repairmanLastName = repairmanLastName;
+    this.repairmanName = repairmanName;
+    this.customerId = customerId;
+    this.customerName = customerName;
+    this.customerPhoneNumber = customerPhoneNumber;
     this.vehicleId = vehicleId;
+    this.vehicleManufacturer = vehicleManufacturer;
+    this.vehicleModel = vehicleModel;
+    this.vehicleIdNumber = vehicleIdNumber;
     this.ticketTitle = ticketTitle;
     this.ticketDesc = ticketDesc;
     this.ticektPrice = ticektPrice;
@@ -67,12 +77,17 @@ export class Ticket {
 
   ticketId: string;
   repairmanId: Repairman["repairmanId"];
-  repairmanFirstName: Repairman["repairmanFirstName"];
-  repairmanLastName: Repairman["repairmanLastName"];
+  repairmanName: string;
+  customerId: string;
+  customerName: string;
+  customerPhoneNumber: string;
   vehicleId: Vehicle["vehicleId"];
+  vehicleManufacturer: Vehicle["vehicleManufacturer"];
+  vehicleModel: Vehicle["vehicleModel"];
+  vehicleIdNumber: Vehicle["vehicleIdNumber"];
   ticketTitle: string;
   ticketDesc: string;
-  ticektPrice: number;
+  ticektPrice: string;
   ticketPriority: TicketPriority;
   ticketStatus: TicketStatus;
   ticketDateCreated: Timestamp | string;

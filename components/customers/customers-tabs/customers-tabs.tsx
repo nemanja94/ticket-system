@@ -1,5 +1,5 @@
 import CustomerAddForm from "./customer-add-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import CustomerSearchForm from "./customer-search-form";
 
 const enum TAB_TYPE {

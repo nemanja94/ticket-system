@@ -1,4 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import TicketAddForm from "./ticket-add-form";
 import TicketSearchForm from "./ticket-search-form";
 

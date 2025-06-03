@@ -3,8 +3,8 @@ import { CUSTOMER_TYPE, Customer } from "@/Entities/Customer.model";
 import { paginatedCustomers } from "@/firebase/firestore/customer-collection";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import CustomerCard from "../customer-card/customer-card.component";
-import { Button } from "../ui/button";
+import CustomerCard from "../../customers/customer-card/customer-card.component";
+import { Button } from "../../ui/button";
 // import useVehicles from "@/hooks/useVehicles";
 
 export default function VehiclePaginated() {
