@@ -16,7 +16,9 @@ import {
 
 export const searchTicket = async (
   _ticketPriority?: string,
-  _ticketStatus?: string
+  _ticketStatus?: string,
+  _repairmanId?: string,
+  _repairmanName?: string
 ): Promise<{
   tickets: Ticket[];
 }> => {
@@ -27,6 +29,12 @@ export const searchTicket = async (
 
   if (_ticketStatus && _ticketStatus !== "")
     constraints.push(where("ticketStatus", "==", _ticketStatus));
+
+  if (_repairmanId && _repairmanId !== "")
+    constraints.push(where("repairmanId", "==", _repairmanId));
+
+  if (_repairmanName && _repairmanName !== "")
+    constraints.push(where("repairmanName", "==", _repairmanName));
 
   let firstBatch = query(
     collection(db, "tickets"),
@@ -52,8 +60,7 @@ export const searchTicket = async (
         new Ticket(
           doc.id,
           data.repairmanId,
-          data.repairmanFirstName,
-          data.repairmanLastName,
+          data.repairmanName,
           data.vehicleId,
           data.ticketTitle,
           data.ticketDesc,
@@ -65,7 +72,9 @@ export const searchTicket = async (
           data.ticketDateDeleted ? data.ticketDateDeleted.seconds : undefined,
           data.customerId,
           data.customerFirstName,
-          data.customerLastName
+          data.customerLastName,
+          data.ticketDateUpdated, // Add the full ticketDateUpdated object or value
+          data.ticketDateDeleted  // Add the full ticketDateDeleted object or value
         )
       );
     }

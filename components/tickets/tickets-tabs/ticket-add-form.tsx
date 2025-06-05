@@ -31,6 +31,7 @@ import { z } from "zod";
 import { CustomerSelect } from "../../customers/customers-tabs/customer-select";
 import { useState } from "react";
 import { Input } from "../../ui/input";
+import { RepairmanSelect } from "@/components/repairman/repairman-select";
 
 const formSchema = z.object({
   repairmanId: z.string(),
@@ -51,6 +52,10 @@ const formSchema = z.object({
 
 const TicketAddForm = () => {
   const [customerId, setCustomerId] = useState<string>("");
+  const [customerName, setCustomerName] = useState<string>("");
+  const [repairmanId, setRepairmanId] = useState<string>("");
+  const [repairmanName, setRepairmanName] = useState<string>("");
+
   const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -132,6 +137,16 @@ const TicketAddForm = () => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          {/* REPAIRMAN */}
+          <RepairmanSelect
+            control={form.control}
+            name="repairmanId"
+            onChange={(repairmanId, repairmanName) => {
+              setRepairmanId(repairmanId);
+              setRepairmanName(repairmanName);
+            }}
           />
 
           {/* VEHICLE OWNER, CUSTOMER */}

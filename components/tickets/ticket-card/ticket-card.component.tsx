@@ -28,7 +28,7 @@ const TicketCard: FunctionComponent<Props> = ({ ticket }) => {
       <CardHeader className={`${cardColor} overflow-hidden p-4`}>
         <CardTitle className="text-lg">{ticket.ticketTitle}</CardTitle>
         <CardDescription className="text-zinc-700 font-medium text-sm">
-          Datum: {ticket.ticketDateCreated.toString()}
+          Datum: {ticket.ticketDateCreated?.toString()}
         </CardDescription>
       </CardHeader>
       <CardContent className="bg-zinc-200 p-4 space-y-2">

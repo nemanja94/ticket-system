@@ -29,10 +29,13 @@ import {
 } from "@/Entities/Ticket.model";
 import { searchTicket } from "@/firebase/firestore/ticket-collection";
 import TicketCard from "../ticket-card/ticket-card.component";
+import { RepairmanSelect } from "@/components/repairman/repairman-select";
 
 const formSchema = z.object({
   ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
   ticketStatus: z.enum(TICKET_STATUS_TYPES),
+  repairmanId: z.string().optional(),
+  repairmanName: z.string().optional(),
 });
 
 const TicketSearchForm = () => {
@@ -52,7 +55,12 @@ const TicketSearchForm = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchTickets = async () => {
       try {
-        return await searchTicket(values.ticketPriority, values.ticketStatus);
+        return await searchTicket(
+          values.ticketPriority,
+          values.ticketStatus,
+          values.repairmanId,
+          values.repairmanName
+        );
       } catch (err) {
         console.log(err);
         return { tickets: [], last: undefined };
@@ -133,6 +141,13 @@ const TicketSearchForm = () => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          {/* Repairman */}
+          <RepairmanSelect
+            control={form.control}
+            name="repairmanId"
+            onChange={() => {}}
           />
 
           <div className="col-span-full flex justify-end">

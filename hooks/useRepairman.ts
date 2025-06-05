@@ -1,46 +1,46 @@
 "use client";
 
 import { db } from "@/config/firebase";
+import { Repairman } from "@/Entities/Reapirman.model";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { z } from "zod";
 
-export type Repairman = z.infer<typeof RepairmanSchema>;
-
-export const RepairmanSchema = z.object({
-  repairmanId: z.string().optional(),
-  repairmanName: z.string(),
-});
-
-export default function useManufacturers() {
-  const [manufacturers, setManufacturers] = useState<Repairman[]>([]);
-  const [isLoadingManufacturers, setIsLoadingManufacturers] =
+export default function useRepairman() {
+  const [repairmans, setRepairmans] = useState<Repairman[]>([]);
+  const [isLoadingRepairmans, setIsLoadingRepairmans] =
     useState<boolean>(false);
-  const [manufacturersError, setManufacturersError] = useState<Error | null>(
+  const [repairmansError, setRepairmansError] = useState<Error | null>(
     null
   );
 
   useEffect(() => {
-    setIsLoadingManufacturers(true);
-    const manufacturersRef = collection(db, "vehicleManufacturers");
+    setIsLoadingRepairmans(true);
+    const repairmansRef = collection(db, "repairman");
 
     const unsubscribe = onSnapshot(
-      manufacturersRef,
+      repairmansRef,
       (querySnapshot) => {
-        const allManufacturers: Repairman[] = [];
+        const allRepairmans: Repairman[] = [];
 
         querySnapshot.forEach((doc) => {
-          allManufacturers.push({
-            repairmanId: doc.id,
-            repairmanName: doc.data().name,
-          });
+          const data = doc.data();
+          allRepairmans.push(
+            new Repairman(
+              doc.id,
+              data.repairmanName,
+              data.repairmanPosition,
+              data.repairmanDateCreated,
+              data.repairmanDateUpdated,
+              data.repairmanDateDeleted
+            )
+          );
         });
 
-        setManufacturers(allManufacturers);
-        setManufacturersError(null); // Reset error if successful
+        setRepairmans(allRepairmans);
+        setRepairmansError(null); // Reset error if successful
       },
       (error) => {
-        setManufacturersError(error); // Set error if there is a problem
+        setRepairmansError(error); // Set error if there is a problem
       }
     );
 
@@ -50,8 +50,8 @@ export default function useManufacturers() {
   }, []);
 
   return {
-    manufacturers: manufacturers,
-    isLoadingManufacturers: isLoadingManufacturers,
-    manufacturersError: manufacturersError,
+    repairmans: repairmans,
+    isLoadingRepairmans: isLoadingRepairmans,
+    repairmansError: repairmansError,
   };
 }

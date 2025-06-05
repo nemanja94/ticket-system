@@ -38,7 +38,7 @@ export class Ticket {
   constructor(
     ticketId: string,
     repairmanId: Repairman["repairmanId"],
-    repairmanName: Repairman["repairmanFirstName"],
+    repairmanName: Repairman["repairmanName"],
     customerId: string,
     customerName: string,
     customerPhoneNumber: string,
