@@ -1,4 +1,5 @@
 "use client";
+
 import { CUSTOMER_TYPE, Customer } from "@/Entities/Customer.model";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,9 +52,6 @@ const CustomerSearchForm = () => {
     },
   });
 
-  useEffect(() => {
-    setCustomers([]);
-  }, [setCustomers]);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchCustomers = async () => {
       try {
@@ -72,6 +70,7 @@ const CustomerSearchForm = () => {
       res.customers.length > 0 ? setCustomers(res.customers) : setCustomers([]);
     });
   };
+
   return (
     <div className="w-[98%] max-w-6xl mx-auto space-y-6">
       <Form {...form}>

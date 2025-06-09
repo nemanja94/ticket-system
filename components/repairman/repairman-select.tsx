@@ -35,10 +35,6 @@ export function RepairmanSelect({
     {} as Repairman
   );
 
-  console.log("RepairmanSelect - repairmans", repairmans);
-  console.log("RepairmanSelect - isLoadingRepairmans", isLoadingRepairmans);
-  console.log("RepairmanSelect - repairmansError", repairmansError);
-
   return (
     <FormField
       control={control}
