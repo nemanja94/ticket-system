@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,25 +46,8 @@ const VehicleSearchForm = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      customerId: "",
-      vehicleDateManufactured: "",
-      vehicleDisplacement: "",
-      vehiclePower: "",
-      vehicleMilage: "",
-      vehicleIdNumber: "",
-      vehiclePlateNumber: "",
-      vehicleDesc: "",
-      vehicleDateCreated: new Date(),
-      vehicleManufacturer: "",
-      vehicleModel: "",
-      vehicleFuelType: "",
-    },
+    defaultValues: {},
   });
-
-  useEffect(() => {
-    setVehicles([]);
-  }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchVehicles = async () => {
