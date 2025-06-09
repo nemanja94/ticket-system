@@ -42,17 +42,33 @@ const TicketCard: FunctionComponent<Props> = ({ ticket }) => {
             <p className="font-medium">{ticket.ticketStatus}</p>
           </div>
           <div>
-            <p className="text-zinc-500">Korisnik:</p>
+            <p className="text-zinc-500">Majstor:</p>
             <p className="font-medium">{ticket.repairmanName}</p>
           </div>
           <div>
+            <p className="text-zinc-500">Musterija:</p>
+            <p className="font-medium">{ticket.customerName}</p>
+          </div>
+          <div>
+            <p className="text-zinc-500">Proizvodjac:</p>
+            <p className="font-medium">{ticket.vehicleManufacturer}</p>
+          </div>
+          <div>
+            <p className="text-zinc-500">Model:</p>
+            <p className="font-medium">{ticket.vehicleModel}</p>
+          </div>
+          <div className="col-span-2">
+            <p className="text-zinc-500">Br. sasije:</p>
+            <p className="font-medium">{ticket.vehicleIdNumber}</p>
+          </div>
+          <div className="col-span-2">
             <p className="text-zinc-500">Opis:</p>
             <p className="font-medium">{ticket.ticketDesc}</p>
           </div>
-          {ticket.ticketDesc && (
+          {ticket.ticketNote && (
             <div className="col-span-2">
               <p className="text-zinc-500">Napomena:</p>
-              <p className="font-medium">{ticket.ticketDesc}</p>
+              <p className="font-medium">{ticket.ticketNote}</p>
             </div>
           )}
         </div>

@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/componFents/ui/input";
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import {
@@ -43,14 +43,8 @@ const TicketSearchForm = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      // ticketPriority: TicketPriority.NizakPrioritet,
-    },
+    defaultValues: {},
   });
-
-  // useEffect(() => {
-  //   setTickets([]);
-  // }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchTickets = async () => {

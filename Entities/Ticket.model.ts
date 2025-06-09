@@ -37,36 +37,36 @@ export const TICKET_STATUS_TYPES: readonly [
 export class Ticket {
   constructor(
     ticketId: string,
-    repairmanId: Repairman["repairmanId"],
-    repairmanName: Repairman["repairmanName"],
+    repairmanId: string,
+    repairmanName: string,
     customerId: string,
     customerName: string,
-    customerPhoneNumber: string,
-    vehicleId: Vehicle["vehicleId"],
-    vehicleManufacturer: Vehicle["vehicleManufacturer"],
-    vehicleModel: Vehicle["vehicleModel"],
-    vehicleIdNumber: Vehicle["vehicleIdNumber"],
+    vehicleId: string,
+    vehicleManufacturer: string,
+    vehicleModel: string,
+    vehicleIdNumber: string,
     ticketTitle: string,
     ticketDesc: string,
+    ticketNote: string,
     ticektPrice: string,
     ticketPriority: TicketPriority,
     ticketStatus: TicketStatus,
     ticketDateCreated: Timestamp | string,
     ticketDateUpdated?: Timestamp | string,
-    ticketDateDeleted?: Timestamp | string
+    ticketDateDeleted?: Timestamp | string,
   ) {
     this.ticketId = ticketId;
     this.repairmanId = repairmanId;
     this.repairmanName = repairmanName;
     this.customerId = customerId;
     this.customerName = customerName;
-    this.customerPhoneNumber = customerPhoneNumber;
     this.vehicleId = vehicleId;
     this.vehicleManufacturer = vehicleManufacturer;
     this.vehicleModel = vehicleModel;
     this.vehicleIdNumber = vehicleIdNumber;
     this.ticketTitle = ticketTitle;
     this.ticketDesc = ticketDesc;
+    this.ticketNote = ticketNote;
     this.ticektPrice = ticektPrice;
     this.ticketPriority = ticketPriority;
     this.ticketStatus = ticketStatus;
@@ -76,17 +76,17 @@ export class Ticket {
   }
 
   ticketId: string;
-  repairmanId: Repairman["repairmanId"];
+  repairmanId: string;
   repairmanName: string;
   customerId: string;
   customerName: string;
-  customerPhoneNumber: string;
-  vehicleId: Vehicle["vehicleId"];
-  vehicleManufacturer: Vehicle["vehicleManufacturer"];
-  vehicleModel: Vehicle["vehicleModel"];
-  vehicleIdNumber: Vehicle["vehicleIdNumber"];
+  vehicleId: string;
+  vehicleManufacturer: string;
+  vehicleModel: string;
+  vehicleIdNumber: string;
   ticketTitle: string;
   ticketDesc: string;
+  ticketNote: string;
   ticektPrice: string;
   ticketPriority: TicketPriority;
   ticketStatus: TicketStatus;

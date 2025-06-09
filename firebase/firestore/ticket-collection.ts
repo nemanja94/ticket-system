@@ -18,7 +18,7 @@ export const searchTicket = async (
   _ticketPriority?: string,
   _ticketStatus?: string,
   _repairmanId?: string,
-  _repairmanName?: string
+  _repairmanName?: string,
 ): Promise<{
   tickets: Ticket[];
 }> => {
@@ -39,7 +39,7 @@ export const searchTicket = async (
   let firstBatch = query(
     collection(db, "tickets"),
     orderBy("ticketDateCreated", "desc"),
-    ...constraints
+    ...constraints,
   );
 
   const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
@@ -61,21 +61,22 @@ export const searchTicket = async (
           doc.id,
           data.repairmanId,
           data.repairmanName,
+          data.customerId,
+          data.customerName,
           data.vehicleId,
+          data.vehicleManufacturer,
+          data.vehicleModel,
+          data.vehicleIdNumber,
           data.ticketTitle,
           data.ticketDesc,
+          data.ticketNote,
           data.ticektPrice,
           data.ticketPriority,
           data.ticketStatus,
           data.ticketDateCreated,
-          data.ticketDateUpdated ? data.ticketDateUpdated.seconds : undefined,
-          data.ticketDateDeleted ? data.ticketDateDeleted.seconds : undefined,
-          data.customerId,
-          data.customerFirstName,
-          data.customerLastName,
-          data.ticketDateUpdated, // Add the full ticketDateUpdated object or value
-          data.ticketDateDeleted  // Add the full ticketDateDeleted object or value
-        )
+          data.ticketDateUpdated,
+          data.ticketDateDeleted,
+        ),
       );
     }
   });

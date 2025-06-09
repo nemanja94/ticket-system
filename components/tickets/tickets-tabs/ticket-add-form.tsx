@@ -63,12 +63,121 @@ const TicketAddForm = () => {
     defaultValues: {},
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (!values.ticketPriority)
+  const checkFields = async (values: z.infer<typeof formSchema>) => {
+    if (!values.ticketPriority) {
       form.setError("ticketPriority", {
         type: "custom",
         message: "Prioritet tiketa je obavezan",
       });
+    }
+
+    if (!values.ticketStatus) {
+      form.setError("ticketStatus", {
+        type: "custom",
+        message: "Status tiketa je obavezan",
+      });
+    }
+
+    if (!values.repairmanId) {
+      form.setError("repairmanId", {
+        type: "custom",
+        message: "Majstor je obavezan",
+      });
+    }
+
+    if (!values.repairmanName) {
+      form.setError("repairmanName", {
+        type: "custom",
+        message: "Ime majstora je obavezan",
+      });
+    }
+
+    if (!values.customerId) {
+      form.setError("customerId", {
+        type: "custom",
+        message: "Vlasnik vozila je obavezan",
+      });
+    }
+
+    if (!values.customerName) {
+      form.setError("customerName", {
+        type: "custom",
+        message: "Ime vlasnika vozila je obavezan",
+      });
+    }
+
+    if (!values.vehicleId) {
+      form.setError("vehicleId", {
+        type: "custom",
+        message: "Vozilo je obavezan",
+      });
+    }
+
+    if (!values.vehicleManufacturer) {
+      form.setError("vehicleManufacturer", {
+        type: "custom",
+        message: "Proizvođač vozila je obavezan",
+      });
+    }
+
+    if (!values.vehicleModel) {
+      form.setError("vehicleModel", {
+        type: "custom",
+        message: "Model vozila je obavezan",
+      });
+    }
+
+    if (!values.vehicleIdNumber) {
+      form.setError("vehicleIdNumber", {
+        type: "custom",
+        message: "Broj šasije vozila je obavezan",
+      });
+    }
+
+    if (!values.ticketTitle) {
+      form.setError("ticketTitle", {
+        type: "custom",
+        message: "Naslov tiketa je obavezan",
+      });
+    }
+
+    if (!values.ticketDesc) {
+      form.setError("ticketDesc", {
+        type: "custom",
+        message: "Opis tiketa je obavezan",
+      });
+    }
+
+    // Check if any validation errors exist
+    let isValid = false;
+    if (
+      // Ticket
+      form.formState.defaultValues?.ticketTitle !== undefined &&
+      form.formState.defaultValues?.ticketDesc !== undefined &&
+      form.formState.defaultValues?.ticketPriority !== undefined &&
+      form.formState.defaultValues?.ticketStatus !== undefined &&
+      // Repairman
+      form.formState.defaultValues?.repairmanId !== undefined &&
+      form.formState.defaultValues?.repairmanId !== "" &&
+      form.formState.defaultValues?.repairmanName !== undefined &&
+      // Customer
+      form.formState.defaultValues?.customerId !== undefined &&
+      form.formState.defaultValues?.customerId !== "" &&
+      form.formState.defaultValues?.customerName !== undefined &&
+      // Vehicle
+      form.formState.defaultValues?.vehicleId !== undefined &&
+      form.formState.defaultValues?.vehicleId !== "" &&
+      form.formState.defaultValues?.vehicleManufacturer !== undefined &&
+      form.formState.defaultValues?.vehicleModel !== undefined &&
+      form.formState.defaultValues?.vehicleIdNumber !== undefined
+    )
+      isValid = true;
+
+    return isValid;
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await checkFields(values);
 
     const ticket: Ticket = new Ticket(
       "",
