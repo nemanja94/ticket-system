@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -8,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-// import { Input } from "@/componFents/ui/input";
 import {
   Select,
   SelectContent,
@@ -30,12 +30,14 @@ import {
 import { searchTicket } from "@/firebase/firestore/ticket-collection";
 import TicketCard from "../ticket-card/ticket-card.component";
 import { RepairmanSelect } from "@/components/repairman/repairman-select";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
-  ticketStatus: z.enum(TICKET_STATUS_TYPES),
+  ticketPriority: z.enum(TICKET_PRIORITY_TYPES).optional(),
+  ticketStatus: z.enum(TICKET_STATUS_TYPES).optional(),
   repairmanId: z.string().optional(),
   repairmanName: z.string().optional(),
+  vehicleIdNumber: z.string().optional(),
 });
 
 const TicketSearchForm = () => {
@@ -43,7 +45,9 @@ const TicketSearchForm = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      vehicleIdNumber: "",
+    },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -53,7 +57,8 @@ const TicketSearchForm = () => {
           values.ticketPriority,
           values.ticketStatus,
           values.repairmanId,
-          values.repairmanName
+          values.repairmanName,
+          values.vehicleIdNumber
         );
       } catch (err) {
         console.log(err);
@@ -73,6 +78,22 @@ const TicketSearchForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
         >
+          {/* Vehicle ID Number */}
+          <FormField
+            control={form.control}
+            name="vehicleIdNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Broj sasije</FormLabel>
+                <FormControl>
+                  <Input placeholder="Pretraži po broju sasije..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Ticket Priority */}
           <FormField
             control={form.control}
             name="ticketPriority"
@@ -105,6 +126,7 @@ const TicketSearchForm = () => {
             )}
           />
 
+          {/* Ticket Status */}
           <FormField
             control={form.control}
             name="ticketStatus"
@@ -157,10 +179,15 @@ const TicketSearchForm = () => {
       </Form>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-[98%] justify-center items-center mx-auto">
-        {tickets &&
+        {tickets && tickets.length > 0 ? (
           tickets.map((ticket) => (
             <TicketCard key={ticket.ticketId} ticket={ticket} />
-          ))}
+          ))
+        ) : (
+          <div className="col-span-full text-center text-zinc-200">
+            Nema rezultata za zadatu pretragu.
+          </div>
+        )}
       </div>
     </div>
   );

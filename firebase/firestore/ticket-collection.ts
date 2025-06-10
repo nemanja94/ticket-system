@@ -19,6 +19,7 @@ export const searchTicket = async (
   _ticketStatus?: string,
   _repairmanId?: string,
   _repairmanName?: string,
+  _vehicleIdNumber?: string,
 ): Promise<{
   tickets: Ticket[];
 }> => {
@@ -35,6 +36,9 @@ export const searchTicket = async (
 
   if (_repairmanName && _repairmanName !== "")
     constraints.push(where("repairmanName", "==", _repairmanName));
+
+  if (_vehicleIdNumber && _vehicleIdNumber !== "")
+    constraints.push(where("vehicleIdNumber", "==", _vehicleIdNumber));
 
   let firstBatch = query(
     collection(db, "tickets"),
