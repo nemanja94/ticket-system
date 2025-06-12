@@ -76,7 +76,7 @@ const CustomerAddForm = () => {
       values.customerFirstName,
       values.customerLastName,
       values.customerNumber,
-      Timestamp.fromDate(values.customerDateCreated)
+      Timestamp.fromDate(new Date())
     );
     const res = await addCustomer(customer);
 
