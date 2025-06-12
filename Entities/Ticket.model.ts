@@ -48,7 +48,7 @@ export class Ticket {
     ticketTitle: string,
     ticketDesc: string,
     ticketNote: string,
-    ticektPrice: string,
+    ticketPrice: string,
     ticketPriority: TicketPriority,
     ticketStatus: TicketStatus,
     ticketDateCreated: Timestamp | string,
@@ -67,7 +67,7 @@ export class Ticket {
     this.ticketTitle = ticketTitle;
     this.ticketDesc = ticketDesc;
     this.ticketNote = ticketNote;
-    this.ticektPrice = ticektPrice;
+    this.ticketPrice = ticketPrice;
     this.ticketPriority = ticketPriority;
     this.ticketStatus = ticketStatus;
     this.ticketDateCreated = ticketDateCreated;
@@ -87,7 +87,7 @@ export class Ticket {
   ticketTitle: string;
   ticketDesc: string;
   ticketNote: string;
-  ticektPrice: string;
+  ticketPrice: string;
   ticketPriority: TicketPriority;
   ticketStatus: TicketStatus;
   ticketDateCreated: Timestamp | string;

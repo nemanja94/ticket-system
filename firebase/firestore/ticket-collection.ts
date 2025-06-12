@@ -1,67 +1,58 @@
+// Firebase Config
 import { db } from "@/config/firebase";
-import { Ticket } from "@/Entities/Ticket.model";
-import { Vehicle } from "@/Entities/Vehicle.model";
+
+// Firebase Types & Functions
 import {
   addDoc,
   collection,
-  DocumentData,
   getDocs,
   orderBy,
   query,
-  QueryFieldFilterConstraint,
-  QuerySnapshot,
-  Timestamp,
   where,
+  type DocumentData,
+  type QueryFieldFilterConstraint,
+  type QuerySnapshot,
+  Timestamp,
 } from "firebase/firestore";
 
-export const searchTicket = async (
-  _ticketPriority?: string,
-  _ticketStatus?: string,
-  _repairmanId?: string,
-  _repairmanName?: string,
-  _vehicleIdNumber?: string,
-): Promise<{
+// Application Models
+import { Ticket } from "@/Entities/Ticket.model";
+
+export type SearchParams = {
+  ticketPriority?: string;
+  ticketStatus?: string;
+  repairmanId?: string;
+  repairmanName?: string;
+  vehicleIdNumber?: string;
+};
+
+/**
+ * Searches for tickets based on provided filters
+ * @param searchParams Parameters for filtering tickets
+ * @returns Promise containing array of matching tickets
+ */
+export const searchTicket = async (searchParams: SearchParams): Promise<{
   tickets: Ticket[];
 }> => {
-  let constraints: QueryFieldFilterConstraint[] = [];
 
-  if (_ticketPriority && _ticketPriority !== "")
-    constraints.push(where("ticketPriority", "==", _ticketPriority));
+  try {
+    const constraints = Object.entries(searchParams)
+      .filter(([_, value]) => value?.trim())
+      .map(([key, value]) => where(key, "==", value.trim()));
 
-  if (_ticketStatus && _ticketStatus !== "")
-    constraints.push(where("ticketStatus", "==", _ticketStatus));
+    const ticketsQuery = query(
+      collection(db, "tickets"),
+      orderBy("ticketDateCreated", "desc"),
+      ...constraints,
+    );
 
-  if (_repairmanId && _repairmanId !== "")
-    constraints.push(where("repairmanId", "==", _repairmanId));
+    const snapshots = await getDocs(ticketsQuery);
 
-  if (_repairmanName && _repairmanName !== "")
-    constraints.push(where("repairmanName", "==", _repairmanName));
-
-  if (_vehicleIdNumber && _vehicleIdNumber !== "")
-    constraints.push(where("vehicleIdNumber", "==", _vehicleIdNumber));
-
-  let firstBatch = query(
-    collection(db, "tickets"),
-    orderBy("ticketDateCreated", "desc"),
-    ...constraints,
-  );
-
-  const documentSnapshots: QuerySnapshot<DocumentData, DocumentData> =
-    await getDocs(firstBatch);
-
-  const ticketsColl: Ticket[] = [];
-  let data: DocumentData;
-
-  documentSnapshots.forEach((doc) => {
-    if (doc.exists()) {
-      data = doc.data();
-
-      data.ticketDateCreated = new Date(data.ticketDateCreated.seconds * 1000)
-        .toISOString()
-        .split("T")[0];
-
-      ticketsColl.push(
-        new Ticket(
+    const tickets = snapshots.docs
+      .filter((doc) => doc.exists())
+      .map((doc) => {
+        const data = doc.data();
+        return new Ticket(
           doc.id,
           data.repairmanId,
           data.repairmanName,
@@ -74,29 +65,59 @@ export const searchTicket = async (
           data.ticketTitle,
           data.ticketDesc,
           data.ticketNote,
-          data.ticektPrice,
+          data.ticketPrice,
           data.ticketPriority,
           data.ticketStatus,
-          data.ticketDateCreated,
+          new Date(data.ticketDateCreated.seconds * 1000).toISOString().split("T")[0],
           data.ticketDateUpdated,
           data.ticketDateDeleted,
-        ),
-      );
-    }
-  });
+        );
+      });
 
-  return { tickets: ticketsColl };
+    return { tickets };
+  } catch (error) {
+    console.error("Error searching tickets:", error);
+    return { tickets: [] };
+  }
 };
 
-export const addTicket = async (ticket: Ticket): Promise<string | boolean> => {
+type AddTicketResult = {
+  success: boolean;
+  ticketId?: string;
+  error?: string;
+};
+
+/**
+ * Adds a new ticket to the database
+ * @param ticket The ticket to add
+ * @returns Object containing success status and ticket ID or error message
+ */
+export const addTicket = async (ticket: Ticket): Promise<AddTicketResult> => {
+  if (!ticket) {
+    return { success: false, error: 'No ticket provided' };
+  }
+
+  console.log("Adding ticket:", ticket);
+
   try {
-    const docRef = await addDoc(collection(db, "tickets"), {
+    const ticketData = {
       ...ticket,
       ticketDateCreated: Timestamp.now(),
-    });
-    return docRef.id;
+      ticketDateUpdated: null,
+      ticketDateDeleted: null,
+    };
+
+    const docRef = await addDoc(collection(db, "tickets"), ticketData);
+
+    return {
+      success: true,
+      ticketId: docRef.id
+    };
   } catch (error) {
-    console.error("Error adding ticket: ", error);
-    return false;
+    console.error("Error adding ticket:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
   }
 };

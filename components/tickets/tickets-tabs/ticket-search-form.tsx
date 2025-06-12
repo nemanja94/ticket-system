@@ -27,7 +27,7 @@ import {
   TicketStatus,
   TICKET_STATUS_TYPES,
 } from "@/Entities/Ticket.model";
-import { searchTicket } from "@/firebase/firestore/ticket-collection";
+import { SearchParams, searchTicket } from "@/firebase/firestore/ticket-collection";
 import TicketCard from "../ticket-card/ticket-card.component";
 import { RepairmanSelect } from "@/components/repairman/repairman-select";
 import { Input } from "@/components/ui/input";
@@ -53,13 +53,13 @@ const TicketSearchForm = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const fetchTickets = async () => {
       try {
-        return await searchTicket(
-          values.ticketPriority,
-          values.ticketStatus,
-          values.repairmanId,
-          values.repairmanName,
-          values.vehicleIdNumber
-        );
+        return await searchTicket({
+          ticketPriority: values.ticketPriority,
+          ticketStatus: values.ticketStatus,
+          repairmanId: values.repairmanId,
+          repairmanName: values.repairmanName,
+          vehicleIdNumber: values.vehicleIdNumber
+        } as SearchParams);
       } catch (err) {
         console.log(err);
         return { tickets: [], last: undefined };
