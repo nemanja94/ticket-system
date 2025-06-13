@@ -22,7 +22,11 @@ import { Control } from "react-hook-form";
 interface CustomerSelectProps {
   control: Control<any>;
   name: string;
-  onChange?: (fuelTypeId: string, fuelTypeName: string) => void;
+  onChange?: (
+    custoemrId: string,
+    customerName: string,
+    customerPhoneNumber: string
+  ) => void;
 }
 
 export function CustomerSelect({
@@ -58,9 +62,8 @@ export function CustomerSelect({
                       value,
                       foundCustomer.customerFirstName +
                         " " +
-                        foundCustomer.customerLastName +
-                        " " +
-                        foundCustomer.customerNumber
+                        foundCustomer.customerLastName,
+                      foundCustomer.customerNumber
                     );
                   }
                 }

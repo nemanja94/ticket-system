@@ -1,37 +1,35 @@
 "use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Timestamp } from "firebase/firestore";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+
+import { CustomerSelect } from "@/components/customers/customers-tabs/customer-select";
+import { CustomerVehicleSelect } from "@/components/customers/customers-tabs/customer-vehicle-select";
+import { RepairmanSelect } from "@/components/repairman/repairman-select";
+import { TicketPrioritySelect } from "./ticket-priority-select";
+import { TicketStatusSelect } from "./ticket-status-select";
+
 import {
   Ticket,
-  TicketPriority,
   TICKET_PRIORITY_TYPES,
   TICKET_STATUS_TYPES,
   TicketStatus,
 } from "@/Entities/Ticket.model";
 import { addTicket } from "@/firebase/firestore/ticket-collection";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Timestamp } from "firebase/firestore";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { CustomerSelect } from "../../customers/customers-tabs/customer-select";
-import { useState } from "react";
-import { Input } from "../../ui/input";
-import { RepairmanSelect } from "@/components/repairman/repairman-select";
 
 const formSchema = z.object({
   repairmanId: z.string(),
@@ -45,140 +43,48 @@ const formSchema = z.object({
   vehicleIdNumber: z.string(),
   ticketTitle: z.string(),
   ticketDesc: z.string(),
+  ticketNote: z.string(),
   ticketPrice: z.string(),
   ticketPriority: z.enum(TICKET_PRIORITY_TYPES),
   ticketStatus: z.enum(TICKET_STATUS_TYPES),
 });
 
-const TicketAddForm = () => {
-  const [customerId, setCustomerId] = useState<string>("");
-  const [customerName, setCustomerName] = useState<string>("");
-  const [repairmanId, setRepairmanId] = useState<string>("");
-  const [repairmanName, setRepairmanName] = useState<string>("");
+// Reusable style constants
+const formContainerStyle = "w-full max-w-6xl mx-auto p-4 md:p-6 space-y-6";
+const formStyle =
+  "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded-xl bg-zinc-500/95 shadow-lg";
+const textareaStyle =
+  "min-h-[96px] resize-none bg-white/90 focus:bg-white transition-colors duration-200";
+const inputStyle = "bg-white/90 focus:bg-white transition-colors duration-200";
+const buttonStyle =
+  "w-full sm:w-auto bg-zinc-700 hover:bg-zinc-600 transition-colors duration-200";
 
+const TicketAddForm = () => {
+  const [selectedCustomerId, setSelectedCustomerId] = useState("");
   const [resetKey, setResetKey] = useState<number>(0);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      repairmanId: "",
+      repairmanName: "",
+      customerId: "",
+      customerName: "",
+      customerPhoneNumber: "",
+      vehicleId: "",
+      vehicleManufacturer: "",
+      vehicleModel: "",
+      vehicleIdNumber: "",
+      ticketTitle: "",
+      ticketDesc: "",
+      ticketNote: "",
+      ticketPrice: "",
+      ticketPriority: TICKET_PRIORITY_TYPES[0],
+      ticketStatus: TICKET_STATUS_TYPES[0],
+    },
   });
 
-  const checkFields = async (values: z.infer<typeof formSchema>) => {
-    if (!values.ticketPriority) {
-      form.setError("ticketPriority", {
-        type: "custom",
-        message: "Prioritet tiketa je obavezan",
-      });
-    }
-
-    if (!values.ticketStatus) {
-      form.setError("ticketStatus", {
-        type: "custom",
-        message: "Status tiketa je obavezan",
-      });
-    }
-
-    if (!values.repairmanId) {
-      form.setError("repairmanId", {
-        type: "custom",
-        message: "Majstor je obavezan",
-      });
-    }
-
-    if (!values.repairmanName) {
-      form.setError("repairmanName", {
-        type: "custom",
-        message: "Ime majstora je obavezan",
-      });
-    }
-
-    if (!values.customerId) {
-      form.setError("customerId", {
-        type: "custom",
-        message: "Vlasnik vozila je obavezan",
-      });
-    }
-
-    if (!values.customerName) {
-      form.setError("customerName", {
-        type: "custom",
-        message: "Ime vlasnika vozila je obavezan",
-      });
-    }
-
-    if (!values.vehicleId) {
-      form.setError("vehicleId", {
-        type: "custom",
-        message: "Vozilo je obavezan",
-      });
-    }
-
-    if (!values.vehicleManufacturer) {
-      form.setError("vehicleManufacturer", {
-        type: "custom",
-        message: "Proizvođač vozila je obavezan",
-      });
-    }
-
-    if (!values.vehicleModel) {
-      form.setError("vehicleModel", {
-        type: "custom",
-        message: "Model vozila je obavezan",
-      });
-    }
-
-    if (!values.vehicleIdNumber) {
-      form.setError("vehicleIdNumber", {
-        type: "custom",
-        message: "Broj šasije vozila je obavezan",
-      });
-    }
-
-    if (!values.ticketTitle) {
-      form.setError("ticketTitle", {
-        type: "custom",
-        message: "Naslov tiketa je obavezan",
-      });
-    }
-
-    if (!values.ticketDesc) {
-      form.setError("ticketDesc", {
-        type: "custom",
-        message: "Opis tiketa je obavezan",
-      });
-    }
-
-    // Check if any validation errors exist
-    let isValid = false;
-    if (
-      // Ticket
-      form.formState.defaultValues?.ticketTitle !== undefined &&
-      form.formState.defaultValues?.ticketDesc !== undefined &&
-      form.formState.defaultValues?.ticketPriority !== undefined &&
-      form.formState.defaultValues?.ticketStatus !== undefined &&
-      // Repairman
-      form.formState.defaultValues?.repairmanId !== undefined &&
-      form.formState.defaultValues?.repairmanId !== "" &&
-      form.formState.defaultValues?.repairmanName !== undefined &&
-      // Customer
-      form.formState.defaultValues?.customerId !== undefined &&
-      form.formState.defaultValues?.customerId !== "" &&
-      form.formState.defaultValues?.customerName !== undefined &&
-      // Vehicle
-      form.formState.defaultValues?.vehicleId !== undefined &&
-      form.formState.defaultValues?.vehicleId !== "" &&
-      form.formState.defaultValues?.vehicleManufacturer !== undefined &&
-      form.formState.defaultValues?.vehicleModel !== undefined &&
-      form.formState.defaultValues?.vehicleIdNumber !== undefined
-    )
-      isValid = true;
-
-    return isValid;
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await checkFields(values);
-
     const ticket: Ticket = new Ticket(
       "",
       values.repairmanId,
@@ -192,86 +98,117 @@ const TicketAddForm = () => {
       values.vehicleIdNumber,
       values.ticketTitle,
       values.ticketDesc,
+      values.ticketNote,
       values.ticketPrice,
       values.ticketPriority,
-      TicketStatus.Otvoren, // Default status when adding a new ticket
-      Timestamp.now().toDate().toISOString(), // Current date as string
-      undefined, // ticketDateUpdated
-      undefined // ticketDateDeleted
+      values.ticketStatus,
+      Timestamp.now().toDate().toISOString(),
+      undefined,
+      undefined
     );
+
     const res = await addTicket(ticket);
 
-    console.log("Ticket added:", res);
-
-    if (typeof res == "string") {
+    if (typeof res.success) {
       form.reset();
+      setResetKey((prev) => prev + 1);
     }
   };
 
+  const renderFormField = (
+    name: keyof z.infer<typeof formSchema>,
+    label: string,
+    placeholder: string,
+    type: string = "text",
+    isTextarea: boolean = false
+  ) => (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-zinc-100 font-medium">{label}</FormLabel>
+          <FormControl>
+            <Input
+              placeholder={placeholder}
+              type={type}
+              className={isTextarea ? textareaStyle : inputStyle}
+              {...field}
+            />
+          </FormControl>
+          <FormMessage className="text-red-200" />
+        </FormItem>
+      )}
+    />
+  );
+
   return (
-    <div className="w-[98%] max-w-6xl mx-auto space-y-6">
+    <div className={formContainerStyle}>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500"
-        >
-          {/* Ticket Priority */}
-          <FormField
-            control={form.control}
-            name="ticketPriority"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Prioritet tiketa</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Izaberite prioritet tiketa" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={TicketPriority.NizakPrioritet}>
-                        {TicketPriority.NizakPrioritet}
-                      </SelectItem>
-                      <SelectItem value={TicketPriority.SrednjiPrioritet}>
-                        {TicketPriority.SrednjiPrioritet}
-                      </SelectItem>
-                      <SelectItem value={TicketPriority.VisokPrioritet}>
-                        {TicketPriority.VisokPrioritet}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* REPAIRMAN */}
-          <RepairmanSelect
-            control={form.control}
-            name="repairmanId"
-            onChange={(repairmanId, repairmanName) => {
-              setRepairmanId(repairmanId);
-              setRepairmanName(repairmanName);
-            }}
-          />
-
-          {/* VEHICLE OWNER, CUSTOMER */}
-          {/* <CustomerSelect
+        <form onSubmit={form.handleSubmit(onSubmit)} className={formStyle}>
+          <CustomerSelect
             key={`customer-${resetKey}`}
             control={form.control}
             name="customerId"
-            onChange={(customerId, customerName) => {
-              setCustomerId(customerId);
-              setCustomerName(customerName);
+            onChange={(customerId, customerName, customerPhoneNumber) => {
+              setSelectedCustomerId(customerId);
+              form.setValue("customerName", customerName);
+              form.setValue("customerPhoneNumber", customerPhoneNumber);
             }}
-          /> */}
+          />
 
-          <div className="col-span-full flex justify-end mt-6">
-            <Button type="submit" className="w-full sm:w-auto">
-              Dodaj tiket
+          <CustomerVehicleSelect
+            key={`vehicle-${resetKey}`}
+            control={form.control}
+            name="vehicleId"
+            customerId={selectedCustomerId}
+            onChange={(vehicleId, vehicleInfo) => {
+              form.setValue("vehicleManufacturer", vehicleInfo.manufacturer);
+              form.setValue("vehicleModel", vehicleInfo.model);
+              form.setValue("vehicleIdNumber", vehicleInfo.idNumber);
+              form.setValue("vehicleId", vehicleId);
+            }}
+          />
+
+          <RepairmanSelect
+            key={`repairman-${resetKey}`}
+            control={form.control}
+            name="repairmanId"
+            onChange={(repairmanId, repairmanName) => {
+              form.setValue("repairmanName", repairmanName);
+              form.setValue("repairmanId", repairmanId);
+            }}
+          />
+
+          {renderFormField("ticketTitle", "Naslov tiketa", "Naslov tiketa...")}
+          {renderFormField(
+            "ticketDesc",
+            "Opis tiketa",
+            "Opis tiketa...",
+            "text",
+            true
+          )}
+          {renderFormField(
+            "ticketNote",
+            "Napomena tiketa",
+            "Napomena tiketa...",
+            "text",
+            true
+          )}
+          {renderFormField(
+            "ticketPrice",
+            "Cijena tiketa",
+            "Cena tiketa...",
+            "number"
+          )}
+
+          <TicketPrioritySelect control={form.control} name="ticketPriority" />
+
+          <TicketStatusSelect control={form.control} name="ticketStatus" />
+
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end pt-4">
+            <Button type="submit" className={buttonStyle}>
+              Dodaj ticket
             </Button>
           </div>
         </form>

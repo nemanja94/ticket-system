@@ -41,6 +41,7 @@ export class Ticket {
     repairmanName: string,
     customerId: string,
     customerName: string,
+    customerPhoneNumber: string,
     vehicleId: string,
     vehicleManufacturer: string,
     vehicleModel: string,
@@ -60,6 +61,7 @@ export class Ticket {
     this.repairmanName = repairmanName;
     this.customerId = customerId;
     this.customerName = customerName;
+    this.customerPhoneNumber = customerPhoneNumber;
     this.vehicleId = vehicleId;
     this.vehicleManufacturer = vehicleManufacturer;
     this.vehicleModel = vehicleModel;
@@ -80,6 +82,7 @@ export class Ticket {
   repairmanName: string;
   customerId: string;
   customerName: string;
+  customerPhoneNumber: string;
   vehicleId: string;
   vehicleManufacturer: string;
   vehicleModel: string;

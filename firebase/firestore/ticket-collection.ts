@@ -58,6 +58,7 @@ export const searchTicket = async (searchParams: SearchParams): Promise<{
           data.repairmanName,
           data.customerId,
           data.customerName,
+          data.customerPhoneNumber,
           data.vehicleId,
           data.vehicleManufacturer,
           data.vehicleModel,
@@ -97,7 +98,6 @@ export const addTicket = async (ticket: Ticket): Promise<AddTicketResult> => {
     return { success: false, error: 'No ticket provided' };
   }
 
-  console.log("Adding ticket:", ticket);
 
   try {
     const ticketData = {
