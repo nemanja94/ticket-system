@@ -49,9 +49,9 @@ const formSchema = z.object({
 });
 
 // Reusable style constants
-const formContainerStyle = "w-full max-w-6xl mx-auto p-4 md:p-6 space-y-6";
+const formContainerStyle = "w-[98%] max-w-6xl mx-auto space-y-6";
 const formStyle =
-  "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded-xl bg-zinc-500/95 shadow-lg";
+  "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6 rounded-lg bg-zinc-500";
 const textareaStyle =
   "min-h-[96px] resize-none bg-white/90 focus:bg-white transition-colors duration-200";
 const inputStyle = "bg-white/90 focus:bg-white transition-colors duration-200";
