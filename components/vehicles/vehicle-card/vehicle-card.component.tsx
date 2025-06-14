@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
-import "./vehicleCard.css";
+
+import { Timestamp } from "firebase/firestore";
+
 import {
   Card,
   CardContent,
@@ -15,74 +16,74 @@ type VehicleCardProps = {
   vehicle: Vehicle;
 };
 
-const VehicleCard = ({ vehicle }: VehicleCardProps) => {
-  const [uniteType, setUniteType] = useState("ks");
+const styles = {
+  card: "overflow-hidden border-none h-full shadow-lg hover:shadow-xl transition-shadow duration-200 flex flex-col",
+  header: "bg-emerald-400/90 hover:bg-emerald-400 transition-colors duration-200 p-4 flex-none",
+  title: "text-lg font-bold text-emerald-950 truncate",
+  description: "text-emerald-950/80 font-medium text-sm",
+  content: "bg-zinc-200 p-4 flex-grow",
+  grid: "grid grid-cols-2 gap-x-6 gap-y-4 text-sm",
+  label: "text-zinc-600 font-medium",
+  value: "font-semibold text-zinc-900",
+  footer: "bg-zinc-300 p-4 flex justify-between items-center text-sm flex-none",
+  section: "space-y-1",
+  fullWidth: "col-span-2",
+  infoContainer: "flex flex-col h-full",
+};
 
-  const converterHandler = () => {
-    switch (uniteType) {
-      case "ks":
-        setUniteType("kw");
-        break;
-      case "hp":
-        setUniteType("ks");
-        break;
-      default:
-        setUniteType("ks");
-        break;
+const VehicleCard = ({ vehicle }: VehicleCardProps) => {
+  const formatDate = (date: string | Timestamp) => {
+    if (date instanceof Timestamp) {
+      return date.toDate().toLocaleDateString();
     }
+    return new Date(date).toLocaleDateString();
   };
 
   return (
-    <Card className="overflow-hidden border-none h-full">
-      <CardHeader className="bg-emerald-400 overflow-hidden p-4">
-        <CardTitle className="text-lg">
+    <Card className={styles.card}>
+      <CardHeader className={styles.header}>
+        <CardTitle className={styles.title}>
           {vehicle.vehicleManufacturer} {vehicle.vehicleModel}
         </CardTitle>
-        <CardDescription className="text-zinc-700 font-medium text-sm">
-          Datum: {vehicle.vehicleDateCreated.toString()}
+        <CardDescription className={styles.description}>
+          Dodat: {formatDate(vehicle.vehicleDateCreated)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="bg-zinc-200 p-4 space-y-2">
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>
-            <p className="text-zinc-500">Zapremina:</p>
-            <p className="font-medium">{vehicle.vehicleDisplacement} ccm</p>
-          </div>
-          <div>
-            <p className="text-zinc-500">Gorivo:</p>
-            <p className="font-medium">{vehicle.vehicleFuelType}</p>
-          </div>
-          <div>
-            <p className="text-zinc-500">Snaga:</p>
-            <p className="font-medium">
-              {vehicle.vehiclePower}
-              <span
-                className="cursor-pointer ml-1 text-zinc-600"
-                onClick={converterHandler}
-              >
-                {uniteType}
-              </span>
-            </p>
-          </div>
-          <div>
-            <p className="text-zinc-500">Broj šasije:</p>
-            <p className="font-medium">{vehicle.vehicleIdNumber}</p>
-          </div>
-          <div>
-            <p className="text-zinc-500">Registracija:</p>
-            <p className="font-medium">{vehicle.vehiclePlateNumber}</p>
-          </div>
-          {vehicle.vehicleDesc && (
-            <div className="col-span-2">
-              <p className="text-zinc-500">Opis:</p>
-              <p className="font-medium">{vehicle.vehicleDesc}</p>
+      <CardContent className={styles.content}>
+        <div className={styles.infoContainer}>
+          <div className={styles.grid}>
+            <div className={styles.section}>
+              <p className={styles.label}>Zapremina</p>
+              <p className={styles.value}>{vehicle.vehicleDisplacement} ccm</p>
             </div>
-          )}
+            <div className={styles.section}>
+              <p className={styles.label}>Gorivo</p>
+              <p className={styles.value}>{vehicle.vehicleFuelType}</p>
+            </div>
+            <div className={styles.section}>
+              <p className={styles.label}>Snaga</p>
+              <p className={styles.value}>{vehicle.vehiclePower} ks</p>
+            </div>
+            <div className={styles.section}>
+              <p className={styles.label}>Registracija</p>
+              <p className={styles.value}>{vehicle.vehiclePlateNumber}</p>
+            </div>
+            <div className={`${styles.section} ${styles.fullWidth}`}>
+              <p className={styles.label}>Broj šasije</p>
+              <p className={styles.value}>{vehicle.vehicleIdNumber}</p>
+            </div>
+            {vehicle.vehicleDesc && (
+              <div className={`${styles.section} ${styles.fullWidth}`}>
+                <p className={styles.label}>Opis</p>
+                <p className={`${styles.value} whitespace-pre-wrap`}>{vehicle.vehicleDesc}</p>
+              </div>
+            )}
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="bg-zinc-300 p-3 flex justify-between items-center">
-        <p className="text-zinc-500">Kilometraža:</p>
-        <p className="font-semibold">{vehicle.vehicleMilage} km</p>
+      <CardFooter className={styles.footer}>
+        <p className={styles.label}>Kilometraža</p>
+        <p className={styles.value}>{vehicle.vehicleMilage.toLocaleString()} km</p>
       </CardFooter>
     </Card>
   );
