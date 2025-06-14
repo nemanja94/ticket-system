@@ -23,7 +23,7 @@ const priorityColors: Record<TicketPriority, string> = {
   [TicketPriority.VisokPrioritet]: "bg-red-500/80 text-red-950",
 };
 
-const labelStyle = "text-zinc-500 mb-1";
+const labelStyle = "text-zinc-700 mb-1";
 const valueStyle = "font-medium";
 const sectionStyle = "flex flex-col";
 
@@ -31,18 +31,21 @@ const formatDate = (date: string | Timestamp) => {
   if (date instanceof Timestamp) {
     return date.toDate().toLocaleDateString();
   }
-  return date;
+  return new Date(date).toLocaleDateString();
 };
 
 const TicketCard: FunctionComponent<Props> = ({ ticket }) => {
-  const cardColor = priorityColors[ticket.ticketPriority] || "bg-gray-200 text-gray-950";
+  const cardColor =
+    priorityColors[ticket.ticketPriority] || "bg-gray-200 text-gray-950";
 
   return (
     <Card className="overflow-hidden border-none h-full shadow-lg hover:shadow-xl transition-shadow duration-200">
       <CardHeader className={`${cardColor} p-4`}>
-        <CardTitle className="text-lg font-bold">{ticket.ticketTitle}</CardTitle>
-        <CardDescription className="font-medium text-sm opacity-90">
-          {formatDate(ticket.ticketDateCreated)}
+        <CardTitle className="text-lg font-bold">
+          {ticket.ticketTitle}
+        </CardTitle>
+        <CardDescription className="font-medium text-gray-950 text-sm opacity-90">
+          Kreiran: {formatDate(ticket.ticketDateCreated)}
         </CardDescription>
       </CardHeader>
       <CardContent className="bg-zinc-200 p-4 space-y-4">

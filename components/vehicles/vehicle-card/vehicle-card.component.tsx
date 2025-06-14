@@ -20,10 +20,10 @@ const styles = {
   card: "overflow-hidden border-none h-full shadow-lg hover:shadow-xl transition-shadow duration-200 flex flex-col",
   header: "bg-emerald-400/90 hover:bg-emerald-400 transition-colors duration-200 p-4 flex-none",
   title: "text-lg font-bold text-emerald-950 truncate",
-  description: "text-emerald-950/80 font-medium text-sm",
+  description: "text-gray-950 font-medium text-sm",
   content: "bg-zinc-200 p-4 flex-grow",
   grid: "grid grid-cols-2 gap-x-6 gap-y-4 text-sm",
-  label: "text-zinc-600 font-medium",
+  label: "text-zinc-700 font-medium",
   value: "font-semibold text-zinc-900",
   footer: "bg-zinc-300 p-4 flex justify-between items-center text-sm flex-none",
   section: "space-y-1",
@@ -32,6 +32,7 @@ const styles = {
 };
 
 const VehicleCard = ({ vehicle }: VehicleCardProps) => {
+  
   const formatDate = (date: string | Timestamp) => {
     if (date instanceof Timestamp) {
       return date.toDate().toLocaleDateString();

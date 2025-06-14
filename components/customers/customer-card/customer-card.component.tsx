@@ -12,12 +12,20 @@ import { Pencil, Trash2 } from "lucide-react";
 import "./customerCard.css";
 import { Customer, CUSTOMER_TYPE } from "@/Entities/Customer.model";
 import { deleteCustomer } from "@/firebase/firestore/customer-collection";
+import { Timestamp } from "firebase/firestore";
 
 type Props = {
   customer: Customer;
 };
 
 const CustomerCard = ({ customer }: Props) => {
+  const formatDate = (date: string | Timestamp) => {
+    if (date instanceof Timestamp) {
+      return date.toDate().toLocaleDateString();
+    }
+    return new Date(date).toLocaleDateString();
+  };
+
   const handleEdit = () => {
     // TODO: Implement edit functionality
     console.log("Edit customer:", customer);
@@ -44,8 +52,8 @@ const CustomerCard = ({ customer }: Props) => {
         <CardTitle className="text-lg font-bold leading-tight">
           {customer.customerFirstName} {customer.customerLastName}
         </CardTitle>
-        <CardDescription className="text-zinc-700 font-medium text-sm">
-          Datum: {customer.customerDateCreated.toString()}
+        <CardDescription className="text-gray-950 font-medium text-sm">
+          Reg: {formatDate(customer.customerDateCreated)}
         </CardDescription>
       </CardHeader>
       <CardContent className="bg-zinc-200 p-4 space-y-3">
