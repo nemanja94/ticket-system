@@ -14,75 +14,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useFuelTypes from "@/hooks/useFuelType";
 import { Control } from "react-hook-form";
-import { useState } from "react";
+
+export enum FuelType {
+  Plin = "Plin",
+  Benzin = "Benzin",
+  Dizel = "Dizel",
+}
 
 interface FuelTypeSelectProps {
   control: Control<any>;
   name: string;
-  onChange?: (fuelTypeId: string, fuelTypeName: string) => void;
+  onChange?: (value: FuelType) => void;
 }
 
-const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => {
-  const { fuelTypes, isLoadingFuelTypes, fuelTypesError } = useFuelTypes();
-  const [selectedFuelTypeName, setSelectedFuelTypeName] = useState<string>("");
-
-  return (
-    <>
-      <FormField
-        control={control}
-        name={name}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Gorivo</FormLabel>
-            <FormControl>
-              <Select
-                onValueChange={(value) => {
-                  field.onChange(value);
-                  // Find selected fuel type and set its name
-                  const selectedFuelType = fuelTypes.find(
-                    (ft) => ft.fuelTypeId === value
-                  );
-                  if (selectedFuelType) {
-                    setSelectedFuelTypeName(selectedFuelType.fuelTypeName);
-                    // Notify parent component if callback provided
-                    if (onChange) {
-                      onChange(value, selectedFuelType.fuelTypeName);
-                    }
-                  }
-                }}
-                defaultValue={field.value}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Gorivo" />
-                </SelectTrigger>
-                <SelectContent>
-                  {fuelTypes.length > 0 ? (
-                    fuelTypes.map((fuelType) => (
-                      <SelectItem
-                        key={fuelType.fuelTypeId}
-                        value={fuelType.fuelTypeName!}
-                      >
-                        {fuelType.fuelTypeName}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <SelectItem value="no-fuel-types" disabled>
-                      {isLoadingFuelTypes
-                        ? "Loading..."
-                        : "No fuel types available"}
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </>
-  );
-};
+const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => (
+  <FormField
+    control={control}
+    name={name}
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>Gorivo</FormLabel>
+        <FormControl>
+          <Select
+            onValueChange={(value) => {
+              field.onChange(value);
+              onChange?.(value as FuelType);
+            }}
+            defaultValue={field.value}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Izaberite tip goriva" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.values(FuelType).map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+);
 
 export default FuelTypeSelect;

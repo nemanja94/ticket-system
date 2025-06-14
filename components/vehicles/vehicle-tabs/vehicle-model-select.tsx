@@ -31,11 +31,7 @@ const VehicleModelSelect = ({
   manufacturerId: manufacturerName,
   onChange,
 }: VehicleModelSelectProps) => {
-  const {
-    manufacturerModels,
-    isLoadingManufacturerModels,
-    manufacturerModelsError,
-  } = useManufacturerModels(manufacturerName);
+  const { models, isLoading, error } = useManufacturerModels(manufacturerName);
 
   const [selectedModelName, setSelectedModelName] = useState<string>("");
 
@@ -57,7 +53,7 @@ const VehicleModelSelect = ({
                 onValueChange={(value) => {
                   field.onChange(value);
                   // Find selected model and set its name
-                  const selectedModel = manufacturerModels.find(
+                  const selectedModel = models.find(
                     (m) => m.manufacturerModelId === value
                   );
                   if (selectedModel) {
@@ -75,8 +71,8 @@ const VehicleModelSelect = ({
                   <SelectValue placeholder="Model" />
                 </SelectTrigger>
                 <SelectContent>
-                  {manufacturerModels.length > 0 ? (
-                    manufacturerModels.map((model) => (
+                  {models.length > 0 ? (
+                    models.map((model) => (
                       <SelectItem
                         key={model.manufacturerModelId}
                         value={model.manufacturerModelName!}
@@ -86,7 +82,7 @@ const VehicleModelSelect = ({
                     ))
                   ) : (
                     <SelectItem value="no-models" disabled>
-                      {isLoadingManufacturerModels
+                      {isLoading
                         ? "Loading models..."
                         : manufacturerName
                           ? "No models available"

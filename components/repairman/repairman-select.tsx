@@ -30,7 +30,7 @@ export function RepairmanSelect({
   name,
   onChange,
 }: RepairmanSelectProps) {
-  const { repairmans, isLoadingRepairmans, repairmansError } = useRepairman();
+  const { repairmans, isLoading, error } = useRepairman();
   const [selectedRepairman, setSelectedRepairman] = useState<Repairman>(
     {} as Repairman
   );
@@ -79,9 +79,7 @@ export function RepairmanSelect({
                   ))
                 ) : (
                   <SelectItem value="no-fuel-types" disabled>
-                    {isLoadingRepairmans
-                      ? "Loading..."
-                      : "No repairmans available"}
+                    {isLoading ? "Loading..." : "No repairmans available"}
                   </SelectItem>
                 )}
               </SelectContent>

@@ -1,57 +1,78 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import {
+  CollectionReference,
+  DocumentData,
+  FirestoreError,
+  QuerySnapshot,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
+
 import { db } from "@/config/firebase";
 import { Repairman } from "@/Entities/Reapirman.model";
-import { collection, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
 
-export default function useRepairman() {
-  const [repairmans, setRepairmans] = useState<Repairman[]>([]);
-  const [isLoadingRepairmans, setIsLoadingRepairmans] =
-    useState<boolean>(false);
-  const [repairmansError, setRepairmansError] = useState<Error | null>(
-    null
-  );
+interface UseRepairmanResult {
+  repairmans: Repairman[];
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export default function useRepairman(): UseRepairmanResult {
+  const [state, setState] = useState<UseRepairmanResult>({
+    repairmans: [],
+    isLoading: true,
+    error: null,
+  });
 
   useEffect(() => {
-    setIsLoadingRepairmans(true);
-    const repairmansRef = collection(db, "repairman");
+    try {
+      const repairmanCollection = collection(db, "repairman") as CollectionReference<DocumentData>;
 
-    const unsubscribe = onSnapshot(
-      repairmansRef,
-      (querySnapshot) => {
-        const allRepairmans: Repairman[] = [];
-
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          allRepairmans.push(
-            new Repairman(
+      const unsubscribe = onSnapshot(
+        repairmanCollection,
+        (snapshot: QuerySnapshot<DocumentData>) => {
+          const repairmans = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return new Repairman(
               doc.id,
               data.repairmanName,
               data.repairmanPosition,
               data.repairmanDateCreated,
               data.repairmanDateUpdated,
               data.repairmanDateDeleted
-            )
-          );
-        });
+            );
+          });
 
-        setRepairmans(allRepairmans);
-        setRepairmansError(null); // Reset error if successful
-      },
-      (error) => {
-        setRepairmansError(error); // Set error if there is a problem
-      }
-    );
+          console.log("Repairmen loaded:", repairmans);
 
-    return () => {
-      unsubscribe(); // when component unmounts
-    };
+          setState({
+            repairmans,
+            isLoading: false,
+            error: null,
+          });
+        },
+        (error: FirestoreError) => {
+          console.error("Error loading repairmen:", error);
+          setState(prev => ({
+            ...prev,
+            isLoading: false,
+            error: new Error(error.message),
+          }));
+        }
+      );
+
+      return unsubscribe;
+    } catch (error) {
+      console.error("Error setting up Firestore listener:", error);
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: error instanceof Error ? error : new Error(String(error)),
+      }));
+    }
   }, []);
 
-  return {
-    repairmans: repairmans,
-    isLoadingRepairmans: isLoadingRepairmans,
-    repairmansError: repairmansError,
-  };
+  return state;
 }

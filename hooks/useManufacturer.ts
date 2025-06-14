@@ -1,57 +1,59 @@
 "use client";
 
-import { db } from "@/config/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
 import { z } from "zod";
 
-export type Manufacturer = z.infer<typeof ManufacturerSchema>;
+import { db } from "@/config/firebase";
 
 export const ManufacturerSchema = z.object({
   manufacturerId: z.string().optional(),
   manufacturerName: z.string(),
 });
 
-export default function useManufacturers() {
-  const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
-  const [isLoadingManufacturers, setIsLoadingManufacturers] =
-    useState<boolean>(false);
-  const [manufacturersError, setManufacturersError] = useState<Error | null>(
-    null,
-  );
+export type Manufacturer = z.infer<typeof ManufacturerSchema>;
+
+interface UseManufacturersResult {
+  manufacturers: Manufacturer[];
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export default function useManufacturers(): UseManufacturersResult {
+  const [state, setState] = useState<UseManufacturersResult>({
+    manufacturers: [],
+    isLoading: true,
+    error: null,
+  });
 
   useEffect(() => {
-    setIsLoadingManufacturers(true);
     const manufacturersRef = collection(db, "vehicleManufacturers");
 
     const unsubscribe = onSnapshot(
       manufacturersRef,
       (querySnapshot) => {
-        const allManufacturers: Manufacturer[] = [];
+        const manufacturers = querySnapshot.docs.map((doc) => ({
+          manufacturerId: doc.id,
+          manufacturerName: doc.data().name,
+        }));
 
-        querySnapshot.forEach((doc) => {
-          allManufacturers.push({
-            manufacturerId: doc.id,
-            manufacturerName: doc.data().name,
-          });
+        setState({
+          manufacturers,
+          isLoading: false,
+          error: null,
         });
-
-        setManufacturers(allManufacturers);
-        setManufacturersError(null); // Reset error if successful
       },
       (error) => {
-        setManufacturersError(error); // Set error if there is a problem
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          error,
+        }));
       },
     );
 
-    return () => {
-      unsubscribe(); // when component unmounts
-    };
+    return unsubscribe;
   }, []);
 
-  return {
-    manufacturers: manufacturers,
-    isLoadingManufacturers: isLoadingManufacturers,
-    manufacturersError: manufacturersError,
-  };
+  return state;
 }
