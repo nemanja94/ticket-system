@@ -1,4 +1,8 @@
+"use client";
+
 import { FunctionComponent } from "react";
+import { Timestamp } from "firebase/firestore";
+
 import {
   Card,
   CardContent,
@@ -8,7 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Ticket, TicketPriority } from "@/Entities/Ticket.model";
-import { Timestamp } from "firebase/firestore";
 
 type Props = {
   ticket: Ticket;

@@ -1,7 +1,8 @@
 "use client";
 
-import { Vehicle } from "@/Entities/Vehicle.model";
-import { searchVehicle } from "@/firebase/firestore/vehicle-collection";
+import { useEffect, useState } from "react";
+import { Control } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -16,8 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Control } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { Vehicle } from "@/Entities/Vehicle.model";
+import { searchVehicle } from "@/firebase/firestore/vehicle-collection";
 
 interface CustomerVehicleSelectProps {
   control: Control<any>;

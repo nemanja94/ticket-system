@@ -1,6 +1,8 @@
 "use client";
 
-import { Repairman } from "@/Entities/Reapirman.model";
+import { useState } from "react";
+import { Control } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -15,9 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Repairman } from "@/Entities/Reapirman.model";
 import useRepairman from "@/hooks/useRepairman";
-import { useState } from "react";
-import { Control } from "react-hook-form";
 
 interface RepairmanSelectProps {
   control: Control<any>;

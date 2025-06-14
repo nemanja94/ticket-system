@@ -1,5 +1,7 @@
 "use client";
 
+import { Control } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -14,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Control } from "react-hook-form";
 import { TICKET_STATUS_TYPES, TicketStatus } from "@/Entities/Ticket.model";
 
 interface TicketStatusSelectProps {
@@ -50,8 +51,8 @@ export function TicketStatusSelect({
               </SelectTrigger>
               <SelectContent>
                 {TICKET_STATUS_TYPES.map((status) => (
-                  <SelectItem 
-                    key={status} 
+                  <SelectItem
+                    key={status}
                     value={status}
                     className=""
                   >

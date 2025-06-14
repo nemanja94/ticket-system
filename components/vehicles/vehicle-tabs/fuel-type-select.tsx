@@ -1,5 +1,9 @@
 "use client";
 
+// External imports
+import { Control } from "react-hook-form";
+
+// UI Components
 import {
   FormControl,
   FormField,
@@ -14,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Control } from "react-hook-form";
 
 export enum FuelType {
   Plin = "Plin",
@@ -41,7 +44,7 @@ const FuelTypeSelect = ({ control, name, onChange }: FuelTypeSelectProps) => (
               field.onChange(value);
               onChange?.(value as FuelType);
             }}
-            defaultValue={field.value}
+            value={field.value}
           >
             <SelectTrigger>
               <SelectValue placeholder="Izaberite tip goriva" />

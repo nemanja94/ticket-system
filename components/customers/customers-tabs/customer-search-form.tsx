@@ -1,6 +1,5 @@
 "use client";
 
-import { CUSTOMER_TYPE, Customer } from "@/Entities/Customer.model";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CUSTOMER_TYPE, Customer } from "@/Entities/Customer.model";
 import { searchCustomer } from "@/firebase/firestore/customer-collection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";

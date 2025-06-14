@@ -1,6 +1,8 @@
 "use client";
 
-import { Customer } from "@/Entities/Customer.model";
+import { useState } from "react";
+import { Control } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -15,9 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Customer } from "@/Entities/Customer.model";
 import useCustomers from "@/hooks/useCustomer";
-import { useState } from "react";
-import { Control } from "react-hook-form";
 
 interface CustomerSelectProps {
   control: Control<any>;
@@ -34,7 +35,7 @@ export function CustomerSelect({
   name,
   onChange,
 }: CustomerSelectProps) {
-  const { customers, isLoadingCustomers, customersError } = useCustomers();
+  const { customers, isLoading, error } = useCustomers();
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>(
     {} as Customer
   );
@@ -89,7 +90,7 @@ export function CustomerSelect({
                   ))
                 ) : (
                   <SelectItem value="no-fuel-types" disabled>
-                    {isLoadingCustomers
+                    {isLoading
                       ? "Loading..."
                       : "No customers available"}
                   </SelectItem>

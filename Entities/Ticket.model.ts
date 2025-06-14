@@ -1,6 +1,4 @@
 import { Timestamp } from "firebase/firestore";
-import { Repairman } from "./Reapirman.model";
-import { Vehicle } from "./Vehicle.model";
 
 export enum TicketPriority {
   VisokPrioritet = "Visok prioritet",

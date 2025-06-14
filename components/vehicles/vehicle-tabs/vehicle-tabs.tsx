@@ -1,8 +1,7 @@
-// import VehicleAddForm from "./vehicle-add-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
-import VehicleSearchForm from "./vehicle-search-form";
-import VehiclePaginated from "./vehicle-paginated";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VehicleAddForm from "./vehicle-add-form";
+import VehiclePaginated from "./vehicle-paginated";
+import VehicleSearchForm from "./vehicle-search-form";
 
 const enum TAB_TYPE {
   FIND_VEHICLE = "findVehicle",
