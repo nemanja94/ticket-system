@@ -103,7 +103,7 @@ const TicketAddForm = () => {
       values.ticketStatus,
       Timestamp.now().toDate().toISOString(),
       undefined,
-      undefined
+      undefined,
     );
 
     const res = await addTicket(ticket);
@@ -119,14 +119,14 @@ const TicketAddForm = () => {
     label: string,
     placeholder: string,
     type: string = "text",
-    isTextarea: boolean = false
+    isTextarea: boolean = false,
   ) => (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-zinc-100 font-medium">{label}</FormLabel>
+          <FormLabel className="font-medium">{label}</FormLabel>
           <FormControl>
             <Input
               placeholder={placeholder}
@@ -185,20 +185,20 @@ const TicketAddForm = () => {
             "Opis tiketa",
             "Opis tiketa...",
             "text",
-            true
+            true,
           )}
           {renderFormField(
             "ticketNote",
             "Napomena tiketa",
             "Napomena tiketa...",
             "text",
-            true
+            true,
           )}
           {renderFormField(
             "ticketPrice",
             "Cijena tiketa",
             "Cena tiketa...",
-            "number"
+            "number",
           )}
 
           <TicketPrioritySelect control={form.control} name="ticketPriority" />
